@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Example DateTimeFormatTimeZone</title>
+    <script type="text/javascript" src='../build/browserified/date-time-format-time-zone-complete-min.js'></script>
+    <style type="text/css">
+        html,body{
+            background: #ddd;
+            text-align: center;
+        }
+        #main{
+            text-align: left;
+            overflow: hidden;
+            width:95%;
+            margin: auto;
+            background: #fff;
+            padding: 10px;
+        }
+        #output {
+            overflow: scroll;
+            background: #000;
+            color: green;
+        }
+        .red{
+            color:red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h1>Test Intl.DateTimeForma.format with locale & timeZoneName</h1>
+        <p>Testing Intl.DateTimeForma.format. Inspect elements to see more</p>
+        <div id='status'>..</div>
+        <pre id='output'>
+          ......
+        </pre>
+    </div>
+</body>
+<script type="text/javascript">
+    var testFixtures = [
+        [
+            "ko,Pacific/Niue,1333515600000,short",
+            "2012. 4. 3. 오후 6:00 GMT-11"
+        ],
+        [
+            "ko,Pacific/Niue,1333515600000,long",
+            "2012. 4. 3. 오후 6:00 니우에 시간"
+        ],
+        [
+            "ko,Pacific/Niue,1354251600000,short",
+            "2012. 11. 29. 오후 6:00 GMT-11"
+        ],
+        [
+            "ko,Pacific/Niue,1354251600000,long",
+            "2012. 11. 29. 오후 6:00 니우에 시간"
+        ],
+        [
+            "ko,Pacific/Pago_Pago,1333515600000,short",
+            "2012. 4. 3. 오후 6:00 GMT-11"
+        ],
+        [
+            "ko,Pacific/Pago_Pago,1333515600000,long",
+            "2012. 4. 3. 오후 6:00 사모아 표준시"
+        ],
+        [
+            "ko,Pacific/Pago_Pago,1354251600000,short",
+            "2012. 11. 29. 오후 6:00 GMT-11"
+        ],
+        [
+            "ko,Pacific/Pago_Pago,1354251600000,long",
+            "2012. 11. 29. 오후 6:00 사모아 표준시"
+        ],
+        [
+            "ko,Pacific/Honolulu,1333515600000,short",
+            "2012. 4. 3. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Honolulu,1333515600000,long",
+            "2012. 4. 3. 오후 7:00 하와이 알류샨 표준시"
+        ],
+        [
+            "ko,Pacific/Honolulu,1354251600000,short",
+            "2012. 11. 29. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Honolulu,1354251600000,long",
+            "2012. 11. 29. 오후 7:00 하와이 알류샨 표준시"
+        ],
+        [
+            "ko,Pacific/Rarotonga,1333515600000,short",
+            "2012. 4. 3. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Rarotonga,1333515600000,long",
+            "2012. 4. 3. 오후 7:00 쿡 제도 표준시"
+        ],
+        [
+            "ko,Pacific/Rarotonga,1354251600000,short",
+            "2012. 11. 29. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Rarotonga,1354251600000,long",
+            "2012. 11. 29. 오후 7:00 쿡 제도 표준시"
+        ],
+        [
+            "ko,Pacific/Tahiti,1333515600000,short",
+            "2012. 4. 3. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Tahiti,1333515600000,long",
+            "2012. 4. 3. 오후 7:00 타히티 시간"
+        ],
+        [
+            "ko,Pacific/Tahiti,1354251600000,short",
+            "2012. 11. 29. 오후 7:00 GMT-10"
+        ],
+        [
+            "ko,Pacific/Tahiti,1354251600000,long",
+            "2012. 11. 29. 오후 7:00 타히티 시간"
+        ],
+        [
+            "ko,Pacific/Marquesas,1333515600000,short",
+            "2012. 4. 3. 오후 7:30 GMT-9:30"
+        ],
+        [
+            "ko,Pacific/Marquesas,1333515600000,long",
+            "2012. 4. 3. 오후 7:30 마르키즈 제도 시간"
+        ],
+        [
+            "ko,Pacific/Marquesas,1354251600000,short",
+            "2012. 11. 29. 오후 7:30 GMT-9:30"
+        ],
+        [
+            "ko,Pacific/Marquesas,1354251600000,long",
+            "2012. 11. 29. 오후 7:30 마르키즈 제도 시간"
+        ],
+        [
+            "kok,Pacific/Niue,1333515600000,short",
+            "2012-04-03 18:00 GMT-11"
+        ],
+        [
+            "kok,Pacific/Niue,1333515600000,long",
+            "2012-04-03 18:00 GMT-11:00"
+        ],
+        [
+            "kok,Pacific/Niue,1354251600000,short",
+            "2012-11-29 18:00 GMT-11"
+        ],
+        [
+            "kok,Pacific/Niue,1354251600000,long",
+            "2012-11-29 18:00 GMT-11:00"
+        ],
+        [
+            "kok,Pacific/Pago_Pago,1333515600000,short",
+            "2012-04-03 18:00 GMT-11"
+        ],
+        [
+            "kok,Pacific/Pago_Pago,1333515600000,long",
+            "2012-04-03 18:00 GMT-11:00"
+        ],
+        [
+            "kok,Pacific/Pago_Pago,1354251600000,short",
+            "2012-11-29 18:00 GMT-11"
+        ],
+        [
+            "kok,Pacific/Pago_Pago,1354251600000,long",
+            "2012-11-29 18:00 GMT-11:00"
+        ],
+        [
+            "kok,Pacific/Honolulu,1333515600000,short",
+            "2012-04-03 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Honolulu,1333515600000,long",
+            "2012-04-03 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Honolulu,1354251600000,short",
+            "2012-11-29 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Honolulu,1354251600000,long",
+            "2012-11-29 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Rarotonga,1333515600000,short",
+            "2012-04-03 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Rarotonga,1333515600000,long",
+            "2012-04-03 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Rarotonga,1354251600000,short",
+            "2012-11-29 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Rarotonga,1354251600000,long",
+            "2012-11-29 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Tahiti,1333515600000,short",
+            "2012-04-03 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Tahiti,1333515600000,long",
+            "2012-04-03 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Tahiti,1354251600000,short",
+            "2012-11-29 19:00 GMT-10"
+        ],
+        [
+            "kok,Pacific/Tahiti,1354251600000,long",
+            "2012-11-29 19:00 GMT-10:00"
+        ],
+        [
+            "kok,Pacific/Marquesas,1333515600000,short",
+            "2012-04-03 19:30 GMT-9:30"
+        ],
+        [
+            "kok,Pacific/Marquesas,1333515600000,long",
+            "2012-04-03 19:30 GMT-09:30"
+        ],
+        [
+            "kok,Pacific/Marquesas,1354251600000,short",
+            "2012-11-29 19:30 GMT-9:30"
+        ],
+        [
+            "kok,Pacific/Marquesas,1354251600000,long",
+            "2012-11-29 19:30 GMT-09:30"
+        ],
+        [
+            "ks,Pacific/Niue,1333515600000,short",
+            "۴/۳/۲۰۱۲ ۶:۰۰ PM GMT-۱۱"
+        ],
+        [
+            "ks,Pacific/Niue,1333515600000,long",
+            "۴/۳/۲۰۱۲ ۶:۰۰ PM نِیوٗ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Niue,1354251600000,short",
+            "۱۱/۲۹/۲۰۱۲ ۶:۰۰ PM GMT-۱۱"
+        ],
+        [
+            "ks,Pacific/Niue,1354251600000,long",
+            "۱۱/۲۹/۲۰۱۲ ۶:۰۰ PM نِیوٗ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Pago_Pago,1333515600000,short",
+            "۴/۳/۲۰۱۲ ۶:۰۰ PM GMT-۱۱"
+        ],
+        [
+            "ks,Pacific/Pago_Pago,1333515600000,long",
+            "۴/۳/۲۰۱۲ ۶:۰۰ PM سٮ۪موآ سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Pago_Pago,1354251600000,short",
+            "۱۱/۲۹/۲۰۱۲ ۶:۰۰ PM GMT-۱۱"
+        ],
+        [
+            "ks,Pacific/Pago_Pago,1354251600000,long",
+            "۱۱/۲۹/۲۰۱۲ ۶:۰۰ PM سٮ۪موآ سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Honolulu,1333515600000,short",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM GMT-۱۰"
+        ],
+        [
+            "ks,Pacific/Honolulu,1333515600000,long",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM حَواے اٮ۪لیوٗٹِیَن سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Honolulu,1354251600000,short",
+            "۱۱/۲۹/۲۰۱۲ ۷:۰۰ PM GMT-۱۰"
+        ],
+        [
+            "ks,Pacific/Honolulu,1354251600000,long",
+            "۱۱/۲۹/۲۰۱۲ ۷:۰۰ PM حَواے اٮ۪لیوٗٹِیَن سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Rarotonga,1333515600000,short",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM GMT-۱۰"
+        ],
+        [
+            "ks,Pacific/Rarotonga,1333515600000,long",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM کُک اَیلینڑز سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Rarotonga,1354251600000,short",
+            "۱۱/۲۹/۲۰۱۲ ۷:۰۰ PM GMT-۱۰"
+        ],
+        [
+            "ks,Pacific/Rarotonga,1354251600000,long",
+            "۱۱/۲۹/۲۰۱۲ ۷:۰۰ PM کُک اَیلینڑز سٹینڑاڑ ٹایِم"
+        ],
+        [
+            "ks,Pacific/Tahiti,1333515600000,short",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM GMT-۱۰"
+        ],
+        [
+            "ks,Pacific/Tahiti,1333515600000,long",
+            "۴/۳/۲۰۱۲ ۷:۰۰ PM ٹاہِٹی ٹایِم"
+        ],
+        [
+            "zh,Pacific/Niue,1354251600000,long",
+            "2012/11/29 纽埃时间 下午6:00"
+        ],
+        [
+            "zh,Pacific/Pago_Pago,1333515600000,short",
+            "2012/4/3 GMT-11 下午6:00"
+        ],
+        [
+            "zh,Pacific/Pago_Pago,1333515600000,long",
+            "2012/4/3 萨摩亚标准时间 下午6:00"
+        ],
+        [
+            "zh,Pacific/Pago_Pago,1354251600000,short",
+            "2012/11/29 GMT-11 下午6:00"
+        ],
+        [
+            "zh,Pacific/Pago_Pago,1354251600000,long",
+            "2012/11/29 萨摩亚标准时间 下午6:00"
+        ],
+        [
+            "zh,Pacific/Honolulu,1333515600000,short",
+            "2012/4/3 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Honolulu,1333515600000,long",
+            "2012/4/3 夏威夷-阿留申标准时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Honolulu,1354251600000,short",
+            "2012/11/29 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Honolulu,1354251600000,long",
+            "2012/11/29 夏威夷-阿留申标准时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Rarotonga,1333515600000,short",
+            "2012/4/3 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Rarotonga,1333515600000,long",
+            "2012/4/3 库克群岛标准时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Rarotonga,1354251600000,short",
+            "2012/11/29 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Rarotonga,1354251600000,long",
+            "2012/11/29 库克群岛标准时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Tahiti,1333515600000,short",
+            "2012/4/3 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Tahiti,1333515600000,long",
+            "2012/4/3 塔希提岛时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Tahiti,1354251600000,short",
+            "2012/11/29 GMT-10 下午7:00"
+        ],
+        [
+            "zh,Pacific/Tahiti,1354251600000,long",
+            "2012/11/29 塔希提岛时间 下午7:00"
+        ],
+        [
+            "zh,Pacific/Marquesas,1333515600000,short",
+            "2012/4/3 GMT-9:30 下午7:30"
+        ],
+        [
+            "zh,Pacific/Marquesas,1333515600000,long",
+            "2012/4/3 马克萨斯群岛时间 下午7:30"
+        ],
+        [
+            "zh,Pacific/Marquesas,1354251600000,short",
+            "2012/11/29 GMT-9:30 下午7:30"
+        ],
+        [
+            "zh,Pacific/Marquesas,1354251600000,long",
+            "2012/11/29 马克萨斯群岛时间 下午7:30"
+        ],
+        [
+            "zu,Pacific/Niue,1333515600000,short",
+            "4/3/2012 6:00 PM GMT-11"
+        ],
+        [
+            "zu,Pacific/Niue,1333515600000,long",
+            "4/3/2012 6:00 PM Isikhathi sase-Niue"
+        ],
+        [
+            "zu,Pacific/Niue,1354251600000,short",
+            "11/29/2012 6:00 PM GMT-11"
+        ],
+        [
+            "zu,Pacific/Niue,1354251600000,long",
+            "11/29/2012 6:00 PM Isikhathi sase-Niue"
+        ],
+        [
+            "zu,Pacific/Pago_Pago,1333515600000,short",
+            "4/3/2012 6:00 PM GMT-11"
+        ],
+        [
+            "zu,Pacific/Pago_Pago,1333515600000,long",
+            "4/3/2012 6:00 PM Isikhathi sase-Samoa esijwayelekile"
+        ],
+        [
+            "zu,Pacific/Pago_Pago,1354251600000,short",
+            "11/29/2012 6:00 PM GMT-11"
+        ],
+        [
+            "zu,Pacific/Pago_Pago,1354251600000,long",
+            "11/29/2012 6:00 PM Isikhathi sase-Samoa esijwayelekile"
+        ],
+        [
+            "zu,Pacific/Honolulu,1333515600000,short",
+            "4/3/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Honolulu,1333515600000,long",
+            "4/3/2012 7:00 PM isikhathi sase-Hawaii-Aleutia esijwayelekile"
+        ],
+        [
+            "zu,Pacific/Honolulu,1354251600000,short",
+            "11/29/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Honolulu,1354251600000,long",
+            "11/29/2012 7:00 PM isikhathi sase-Hawaii-Aleutia esijwayelekile"
+        ],
+        [
+            "zu,Pacific/Rarotonga,1333515600000,short",
+            "4/3/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Rarotonga,1333515600000,long",
+            "4/3/2012 7:00 PM Isikhathi esivamile sase-Cook Islands"
+        ],
+        [
+            "zu,Pacific/Rarotonga,1354251600000,short",
+            "11/29/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Rarotonga,1354251600000,long",
+            "11/29/2012 7:00 PM Isikhathi esivamile sase-Cook Islands"
+        ],
+        [
+            "zu,Pacific/Tahiti,1333515600000,short",
+            "4/3/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Tahiti,1333515600000,long",
+            "4/3/2012 7:00 PM Isikhathi sase-Tahiti"
+        ],
+        [
+            "zu,Pacific/Tahiti,1354251600000,short",
+            "11/29/2012 7:00 PM GMT-10"
+        ],
+        [
+            "zu,Pacific/Tahiti,1354251600000,long",
+            "11/29/2012 7:00 PM Isikhathi sase-Tahiti"
+        ],
+        [
+            "zu,Pacific/Marquesas,1333515600000,short",
+            "4/3/2012 7:30 PM GMT-9:30"
+        ],
+        [
+            "zu,Pacific/Marquesas,1333515600000,long",
+            "4/3/2012 7:30 PM Isikhathi sase-Marquesas"
+        ],
+        [
+            "zu,Pacific/Marquesas,1354251600000,short",
+            "11/29/2012 7:30 PM GMT-9:30"
+        ],
+        [
+            "zu,Pacific/Marquesas,1354251600000,long",
+            "11/29/2012 7:30 PM Isikhathi sase-Marquesas"
+        ],
+        [
+            "ca-ES,Pacific/Niue,1333515600000,short",
+            "3/4/2012, 18:00 GMT-11"
+        ],
+        [
+            "ca-ES,Pacific/Niue,1333515600000,long",
+            "3/4/2012, 18:00 Hora de Niue"
+        ],
+        [
+            "ca-ES,Pacific/Niue,1354251600000,short",
+            "29/11/2012, 18:00 GMT-11"
+        ],
+        [
+            "ca-ES,Pacific/Niue,1354251600000,long",
+            "29/11/2012, 18:00 Hora de Niue"
+        ],
+        [
+            "ca-ES,Pacific/Pago_Pago,1333515600000,short",
+            "3/4/2012, 18:00 GMT-11"
+        ],
+        [
+            "ca-ES,Pacific/Pago_Pago,1333515600000,long",
+            "3/4/2012, 18:00 Hora estàndard de Samoa"
+        ],
+        [
+            "ca-ES,Pacific/Pago_Pago,1354251600000,short",
+            "29/11/2012, 18:00 GMT-11"
+        ],
+        [
+            "ca-ES,Pacific/Pago_Pago,1354251600000,long",
+            "29/11/2012, 18:00 Hora estàndard de Samoa"
+        ],
+        [
+            "ca-ES,Pacific/Honolulu,1333515600000,short",
+            "3/4/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Honolulu,1333515600000,long",
+            "3/4/2012, 19:00 Hora estàndard de Hawaii-Aleutianes"
+        ],
+        [
+            "ca-ES,Pacific/Honolulu,1354251600000,short",
+            "29/11/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Honolulu,1354251600000,long",
+            "29/11/2012, 19:00 Hora estàndard de Hawaii-Aleutianes"
+        ],
+        [
+            "ca-ES,Pacific/Rarotonga,1333515600000,short",
+            "3/4/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Rarotonga,1333515600000,long",
+            "3/4/2012, 19:00 Hora estàndard de les illes Cook"
+        ],
+        [
+            "ca-ES,Pacific/Rarotonga,1354251600000,short",
+            "29/11/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Rarotonga,1354251600000,long",
+            "29/11/2012, 19:00 Hora estàndard de les illes Cook"
+        ],
+        [
+            "ca-ES,Pacific/Tahiti,1333515600000,short",
+            "3/4/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Tahiti,1333515600000,long",
+            "3/4/2012, 19:00 Hora de Tahití"
+        ],
+        [
+            "ca-ES,Pacific/Tahiti,1354251600000,short",
+            "29/11/2012, 19:00 GMT-10"
+        ],
+        [
+            "ca-ES,Pacific/Tahiti,1354251600000,long",
+            "29/11/2012, 19:00 Hora de Tahití"
+        ],
+        [
+            "ca-ES,Pacific/Marquesas,1333515600000,short",
+            "3/4/2012, 19:30 GMT-9:30"
+        ],
+        [
+            "ca-ES,Pacific/Marquesas,1333515600000,long",
+            "3/4/2012, 19:30 Hora de les Marqueses"
+        ],
+        [
+            "ca-ES,Pacific/Marquesas,1354251600000,short",
+            "29/11/2012, 19:30 GMT-9:30"
+        ],
+        [
+            "ca-ES,Pacific/Marquesas,1354251600000,long",
+            "29/11/2012, 19:30 Hora de les Marqueses"
+        ],
+        [
+            "en-US,Pacific/Niue,1333515600000,short",
+            "4/3/2012, 6:00 PM GMT-11"
+        ],
+        [
+            "en-US,Pacific/Niue,1333515600000,long",
+            "4/3/2012, 6:00 PM Niue Time"
+        ],
+        [
+            "en-US,Pacific/Niue,1354251600000,short",
+            "11/29/2012, 6:00 PM GMT-11"
+        ],
+        [
+            "en-US,Pacific/Niue,1354251600000,long",
+            "11/29/2012, 6:00 PM Niue Time"
+        ],
+        [
+            "en-US,Pacific/Pago_Pago,1333515600000,short",
+            "4/3/2012, 6:00 PM GMT-11"
+        ],
+        [
+            "en-US,Pacific/Pago_Pago,1333515600000,long",
+            "4/3/2012, 6:00 PM Samoa Standard Time"
+        ],
+        [
+            "en-US,Pacific/Pago_Pago,1354251600000,short",
+            "11/29/2012, 6:00 PM GMT-11"
+        ],
+        [
+            "en-US,Pacific/Pago_Pago,1354251600000,long",
+            "11/29/2012, 6:00 PM Samoa Standard Time"
+        ],
+        [
+            "en-US,Pacific/Honolulu,1333515600000,long",
+            "4/3/2012, 7:00 PM Hawaii-Aleutian Standard Time"
+        ],
+        [
+            "en-US,Pacific/Honolulu,1354251600000,long",
+            "11/29/2012, 7:00 PM Hawaii-Aleutian Standard Time"
+        ],
+        [
+            "en-US,Pacific/Rarotonga,1333515600000,short",
+            "4/3/2012, 7:00 PM GMT-10"
+        ],
+        [
+            "en-US,Pacific/Rarotonga,1333515600000,long",
+            "4/3/2012, 7:00 PM Cook Islands Standard Time"
+        ],
+        [
+            "en-US,Pacific/Rarotonga,1354251600000,short",
+            "11/29/2012, 7:00 PM GMT-10"
+        ],
+        [
+            "en-US,Pacific/Rarotonga,1354251600000,long",
+            "11/29/2012, 7:00 PM Cook Islands Standard Time"
+        ],
+        [
+            "en-US,Pacific/Tahiti,1333515600000,short",
+            "4/3/2012, 7:00 PM GMT-10"
+        ],
+        [
+            "en-US,Pacific/Tahiti,1333515600000,long",
+            "4/3/2012, 7:00 PM Tahiti Time"
+        ],
+        [
+            "en-US,Pacific/Tahiti,1354251600000,short",
+            "11/29/2012, 7:00 PM GMT-10"
+        ],
+        [
+            "en-US,Pacific/Tahiti,1354251600000,long",
+            "11/29/2012, 7:00 PM Tahiti Time"
+        ],
+        [
+            "en-US,Pacific/Marquesas,1333515600000,short",
+            "4/3/2012, 7:30 PM GMT-9:30"
+        ],
+        [
+            "en-US,Pacific/Marquesas,1333515600000,long",
+            "4/3/2012, 7:30 PM Marquesas Time"
+        ],
+        [
+            "en-US,Pacific/Marquesas,1354251600000,short",
+            "11/29/2012, 7:30 PM GMT-9:30"
+        ],
+        [
+            "en-US,Pacific/Marquesas,1354251600000,long",
+            "11/29/2012, 7:30 PM Marquesas Time"
+        ]
+    ];
+</script>
+<script type="text/javascript">
+    function out(text) {
+        var msg = document.createElement('div');
+        msg.innerHTML = text;
+        document.getElementById('output').appendChild(msg);
+    }
+
+    function status(text) {
+        document.getElementById('status').innerHTML = text;
+    }
+
+    var testIndex = 0;
+    var failIndex = 0;
+
+    function test(i) {
+        var testFixture = testFixtures[i],
+            expected = testFixture[1],
+            param = testFixture[0].split(','),
+            actual,
+            option = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric'
+            },
+            locale = param[0],
+            timeZone = param[1],
+            ts = param[2],
+            tzFormat = param[3];
+
+        option.timeZone = timeZone;
+        option.timeZoneName = tzFormat;
+
+        try {
+            actual = new Intl.DateTimeFormat(locale, option).format(new Date(ts * 1)).replace('،', '').toLowerCase().trim();
+            if (actual !== expected.replace('،', '').toLowerCase().trim()) {
+                out('<span class="red">Failed</span> expected=' + expected + ' actual=' + actual +' testFixture='+ testFixture[0]);
+                failIndex = failIndex + 1;
+            } else {
+                //out('Success fixture:'+ testFixture[0]);
+            }
+        } catch (e) {
+            failIndex = failIndex + 1;
+            out('Exp: <span class="red">Failed</span> for fixture:' + testFixture[0] + '===' + new Date(param[2] * 1));
+        }
+
+        testIndex = testIndex + 1;
+    }
+
+
+    function next() {
+        setTimeout(function() {
+            test(testIndex);
+            if (testIndex < testFixtures.length) {
+                next();
+                status('Done ' + (testIndex + 1) + '/' + testFixtures.length + ' Passed:' + (testIndex + 1 - failIndex) + " Failed:" + failIndex);
+            } else {
+                out('Done!!');
+            }
+        }, 1);
+    };
+
+    next();
+</script>
+
+</html>

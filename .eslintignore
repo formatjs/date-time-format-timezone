@@ -1,0 +1,5 @@
+example/
+node_modules/
+src/data/
+temp/
+dist/

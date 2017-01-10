@@ -1,0 +1,15 @@
+.babelrc
+.eslintignore
+.eslintrc
+.travis.yml
+example
+karma.conf.js
+results.txt
+src/
+tasks/
+temp/
+test/
+build/browserified/test
+build/test
+*.map
+Gruntfile.js

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Current Time in some timeZones and locales</title>
+    <script type="text/javascript" src='../build/browserified/date-time-format-time-zone-complete-min.js'></script>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body {
+            background: #000;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        #main {
+            text-align: left;
+            overflow: visible;
+            width: 1000px;
+            margin: auto;
+            background: #000;
+            color: rgb(55, 143, 196);
+            padding: 10px;
+        }
+        
+        .img-container {
+            text-align: center;
+            position: relative;
+        }
+        
+        .img-container img {
+            width: 100%;
+        }
+        
+        .label {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.6);
+            color: white;
+            cursor: pointer;
+            min-height: 50px;
+            max-width: 100px;
+            padding: 5px;
+            text-align: center;
+            opacity: 1;
+            vertical-align: middle;
+            transform: rotate(-00deg);
+        }
+
+        
+        #Tokyo {
+            top: 130px;
+            left: 760px;
+        }
+        
+        #Calcutta {
+            top: 250px;
+            left: 650px;
+        }
+        
+        #Moscow {
+            top: 130px;
+            left: 550px;
+        }
+        
+        #Amsterdam {
+            top: 130px;
+            left: 400px;
+        }
+        
+        #Buenos_Aires {
+            top: 450px;
+            left: 200px;
+        }
+        
+        #New_York {
+            top: 150px;
+            left: 130px;
+        }
+        
+        #Los_Angeles {
+            top: 200px;
+            left: 0px;
+        }
+        
+        #Johannesburg {
+            top: 420px;
+            left: 450px;
+        }
+        
+        #Sydney {
+            top: 400px;
+            left: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h1>Current Time in some timeZones and locales</h1>
+        <div class='img-container'>
+            <img src="world_map.jpg">
+            <div class="label" id="Tokyo">Tokyo</div>
+            <div class="label" id="Calcutta">Calcutta</div>
+            <div class="label" id="Moscow">Moscow</div>
+            <div class="label" id="Amsterdam">Amsterdam</div>
+            <div class="label" id="Sydney">Amsterdam</div>
+            <div class="label" id="Johannesburg">Johannesburg</div>
+            <div class="label" id="Buenos_Aires">Buenos_Aires</div>
+            <div class="label" id="New_York">New_York</div>
+            <div class="label" id="Los_Angeles">Los_Angeles</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function updateTime() {
+            var currentTime = new Date();
+            document.getElementById('Tokyo').innerHTML = new Intl.DateTimeFormat('ca', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Asia/Tokyo',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Calcutta').innerHTML = new Intl.DateTimeFormat('hi', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Asia/Calcutta',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Moscow').innerHTML = new Intl.DateTimeFormat('ru', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Europe/Moscow',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Amsterdam').innerHTML = new Intl.DateTimeFormat('fr', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Europe/Amsterdam',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Buenos_Aires').innerHTML = new Intl.DateTimeFormat('es', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'America/Buenos_Aires',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('New_York').innerHTML = new Intl.DateTimeFormat('en', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'America/New_York',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Los_Angeles').innerHTML = new Intl.DateTimeFormat('en', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'America/Los_Angeles',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Sydney').innerHTML = new Intl.DateTimeFormat('en-au', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Australia/Sydney',
+                timeZoneName: 'long'
+            }).format(currentTime);
+            document.getElementById('Johannesburg').innerHTML = new Intl.DateTimeFormat('en-za', {
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                timeZone: 'Africa/Johannesburg',
+                timeZoneName: 'long'
+            }).format(currentTime);
+        }
+        setInterval(updateTime, 1000);
+    </script>
+
+</body>
+
+</html>

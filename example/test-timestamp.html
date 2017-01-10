@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Example DateTimeFormatTimeZone</title>
+    <script type="text/javascript" src='../build/browserified/date-time-format-time-zone-complete-min.js'></script>
+    <style type="text/css">
+        html,body{
+            background: #ddd;
+            text-align: center;
+        }
+        #main{
+            text-align: left;
+            overflow: hidden;
+            width:90%;
+            margin: auto;
+            background: #fff;
+            padding: 10px;
+        }
+        #output {
+            overflow: scroll;
+            background: #000;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h1>Test Intl.DateTimeForma.format with timestamps</h1>
+        <p>Testing Intl.DateTimeForma.format. Inspect elements to see more</p>
+        <div id='status'>..</div>
+        <pre id='output'>
+          ......
+        </pre>
+    </div>
+</body>
+<script type="text/javascript">
+    var testFixtures = [
+        [
+            "en:Pacific/Niue:1480672885775",
+            "12/1/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Pago_Pago:1480672885777",
+            "12/1/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Honolulu:1480672885778",
+            "12/2/2016, 12:01 AM"
+        ],
+        [
+            "en:Pacific/Rarotonga:1480672885778",
+            "12/2/2016, 12:01 AM"
+        ],
+        [
+            "en:Pacific/Tahiti:1480672885779",
+            "12/2/2016, 12:01 AM"
+        ],
+        [
+            "en:Pacific/Marquesas:1480672885780",
+            "12/2/2016, 12:31 AM"
+        ],
+        [
+            "en:America/Anchorage:1480672885781",
+            "12/2/2016, 1:01 AM"
+        ],
+        [
+            "en:Pacific/Gambier:1480672885782",
+            "12/2/2016, 1:01 AM"
+        ],
+        [
+            "en:America/Los_Angeles:1480672885783",
+            "12/2/2016, 2:01 AM"
+        ],
+        [
+            "en:America/Tijuana:1480672885783",
+            "12/2/2016, 2:01 AM"
+        ],
+        [
+            "en:America/Vancouver:1480672885784",
+            "12/2/2016, 2:01 AM"
+        ],
+        [
+            "en:America/Whitehorse:1480672885785",
+            "12/2/2016, 2:01 AM"
+        ],
+        [
+            "en:Pacific/Pitcairn:1480672885786",
+            "12/2/2016, 2:01 AM"
+        ],
+        [
+            "en:America/Dawson_Creek:1480672885786",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Denver:1480672885787",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Edmonton:1480672885788",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Hermosillo:1480672885788",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Mazatlan:1480672885789",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Phoenix:1480672885790",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Yellowknife:1480672885790",
+            "12/2/2016, 3:01 AM"
+        ],
+        [
+            "en:America/Belize:1480672885791",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Chicago:1480672885792",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Costa_Rica:1480672885793",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/El_Salvador:1480672885793",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Guatemala:1480672885794",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Managua:1480672885795",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Mexico_City:1480672885795",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Regina:1480672885796",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Tegucigalpa:1480672885797",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Winnipeg:1480672885797",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:Pacific/Easter:1480672885798",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:Pacific/Galapagos:1480672885799",
+            "12/2/2016, 4:01 AM"
+        ],
+        [
+            "en:America/Bogota:1480672885800",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Cancun:1480672885800",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Guayaquil:1480672885801",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Havana:1480672885802",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Iqaluit:1480672885803",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Jamaica:1480672885803",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Lima:1480672885804",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Nassau:1480672885805",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/New_York:1480672885806",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Panama:1480672885807",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Port-au-Prince:1480672885808",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Rio_Branco:1480672885809",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Toronto:1480672885810",
+            "12/2/2016, 5:01 AM"
+        ],
+        [
+            "en:America/Asuncion:1480672885811",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Barbados:1480672885812",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Boa_Vista:1480672885813",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Campo_Grande:1480672885813",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Caracas:1480672885814",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Cuiaba:1480672885815",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Curacao:1480672885816",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Grand_Turk:1480672885817",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Guyana:1480672885817",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Halifax:1480672885818",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/La_Paz:1480672885819",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Manaus:1480672885820",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Martinique:1480672885820",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Port_of_Spain:1480672885821",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Porto_Velho:1480672885822",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Puerto_Rico:1480672885822",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Santiago:1480672885823",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Santo_Domingo:1480672885824",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/Thule:1480672885825",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:Antarctica/Palmer:1480672885825",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:Atlantic/Bermuda:1480672885826",
+            "12/2/2016, 6:01 AM"
+        ],
+        [
+            "en:America/St_Johns:1480672885827",
+            "12/2/2016, 6:31 AM"
+        ],
+        [
+            "en:America/Araguaina:1480672885827",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Argentina/Buenos_Aires:1480672885828",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Bahia:1480672885829",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Belem:1480672885829",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Cayenne:1480672885830",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Fortaleza:1480672885830",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Godthab:1480672885831",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Maceio:1480672885832",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Miquelon:1480672885832",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Montevideo:1480672885833",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Paramaribo:1480672885834",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Recife:1480672885835",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Sao_Paulo:1480672885835",
+            "12/2/2016, 8:01 AM"
+        ],
+        [
+            "en:Antarctica/Rothera:1480672885836",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:Atlantic/Stanley:1480672885837",
+            "12/2/2016, 7:01 AM"
+        ],
+        [
+            "en:America/Noronha:1480672885838",
+            "12/2/2016, 8:01 AM"
+        ],
+        [
+            "en:Atlantic/South_Georgia:1480672885838",
+            "12/2/2016, 8:01 AM"
+        ],
+        [
+            "en:America/Scoresbysund:1480672885839",
+            "12/2/2016, 9:01 AM"
+        ],
+        [
+            "en:Atlantic/Azores:1480672885840",
+            "12/2/2016, 9:01 AM"
+        ],
+        [
+            "en:Atlantic/Cape_Verde:1480672885841",
+            "12/2/2016, 9:01 AM"
+        ],
+        [
+            "en:Africa/Abidjan:1480672885841",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/Accra:1480672885842",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/Bissau:1480672885843",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/Casablanca:1480672885844",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/El_Aaiun:1480672885844",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/Monrovia:1480672885845",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:America/Danmarkshavn:1480672885846",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Atlantic/Canary:1480672885846",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Atlantic/Faroe:1480672885847",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Atlantic/Reykjavik:1480672885848",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Etc/GMT:1480672885849",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Europe/Dublin:1480672885850",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Europe/Lisbon:1480672885851",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Europe/London:1480672885852",
+            "12/2/2016, 10:01 AM"
+        ],
+        [
+            "en:Africa/Algiers:1480672885852",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Ceuta:1480672885853",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Lagos:1480672885854",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Ndjamena:1480672885854",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Tunis:1480672885855",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Windhoek:1480672885856",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Amsterdam:1480672885856",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Andorra:1480672885857",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Belgrade:1480672885858",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Berlin:1480672885859",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Brussels:1480672885859",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Budapest:1480672885860",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Copenhagen:1480672885861",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Gibraltar:1480672885862",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Luxembourg:1480672885863",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Madrid:1480672885864",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Malta:1480672885864",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Monaco:1480672885865",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Oslo:1480672885866",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Paris:1480672885867",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Prague:1480672885868",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Rome:1480672885868",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Stockholm:1480672885869",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Tirane:1480672885870",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Vienna:1480672885871",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Warsaw:1480672885872",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Europe/Zurich:1480672885873",
+            "12/2/2016, 11:01 AM"
+        ],
+        [
+            "en:Africa/Cairo:1480672885873",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Africa/Johannesburg:1480672885874",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Africa/Maputo:1480672885875",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Africa/Tripoli:1480672885875",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Amman:1480672885876",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Beirut:1480672885877",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Damascus:1480672885877",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Gaza:1480672885878",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Jerusalem:1480672885879",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Asia/Nicosia:1480672885879",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Athens:1480672885880",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Bucharest:1480672885881",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Chisinau:1480672885882",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Helsinki:1480672885883",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Kaliningrad:1480672885883",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Kiev:1480672885884",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Riga:1480672885885",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Sofia:1480672885886",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Tallinn:1480672885887",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Europe/Vilnius:1480672885888",
+            "12/2/2016, 12:01 PM"
+        ],
+        [
+            "en:Africa/Khartoum:1480672885888",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Africa/Nairobi:1480672885889",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Antarctica/Syowa:1480672885890",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Asia/Baghdad:1480672885890",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Asia/Qatar:1480672885891",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Asia/Riyadh:1480672885892",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Europe/Istanbul:1480672885893",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Europe/Minsk:1480672885893",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Europe/Moscow:1480672885894",
+            "12/2/2016, 1:01 PM"
+        ],
+        [
+            "en:Asia/Tehran:1480672885895",
+            "12/2/2016, 1:31 PM"
+        ],
+        [
+            "en:Asia/Aqtau:1480672885896",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Baku:1480672885896",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Asia/Dubai:1480672885897",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Asia/Tbilisi:1480672885898",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Asia/Yerevan:1480672885899",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Europe/Samara:1480672885899",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Indian/Mahe:1480672885900",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Indian/Mauritius:1480672885901",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Indian/Reunion:1480672885902",
+            "12/2/2016, 2:01 PM"
+        ],
+        [
+            "en:Asia/Kabul:1480672885903",
+            "12/2/2016, 2:31 PM"
+        ],
+        [
+            "en:Antarctica/Mawson:1480672885903",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Aqtobe:1480672885904",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Ashgabat:1480672885905",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Bishkek:1480672885906",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Asia/Dushanbe:1480672885906",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Karachi:1480672885907",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Tashkent:1480672885908",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Yekaterinburg:1480672885908",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Indian/Kerguelen:1480672885909",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Indian/Maldives:1480672885910",
+            "12/2/2016, 3:01 PM"
+        ],
+        [
+            "en:Asia/Calcutta:1480672885911",
+            "12/2/2016, 3:31 PM"
+        ],
+        [
+            "en:Asia/Colombo:1480672885911",
+            "12/2/2016, 3:31 PM"
+        ],
+        [
+            "en:Asia/Katmandu:1480672885912",
+            "12/2/2016, 3:46 PM"
+        ],
+        [
+            "en:Antarctica/Vostok:1480672885913",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Asia/Almaty:1480672885914",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Asia/Dhaka:1480672885914",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Asia/Omsk:1480672885915",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Asia/Thimphu:1480672885916",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Indian/Chagos:1480672885917",
+            "12/2/2016, 4:01 PM"
+        ],
+        [
+            "en:Indian/Cocos:1480672885917",
+            "12/2/2016, 4:31 PM"
+        ],
+        [
+            "en:Antarctica/Davis:1480672885918",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Bangkok:1480672885919",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Hovd:1480672885920",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Jakarta:1480672885920",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Krasnoyarsk:1480672885921",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Saigon:1480672885922",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Indian/Christmas:1480672885923",
+            "12/2/2016, 5:01 PM"
+        ],
+        [
+            "en:Asia/Brunei:1480672885923",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Choibalsan:1480672885924",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Hong_Kong:1480672885925",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Irkutsk:1480672885926",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Kuala_Lumpur:1480672885926",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Macau:1480672885927",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Makassar:1480672885928",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Manila:1480672885928",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Shanghai:1480672885929",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Singapore:1480672885930",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Taipei:1480672885931",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Ulaanbaatar:1480672885931",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Australia/Perth:1480672885932",
+            "12/2/2016, 6:01 PM"
+        ],
+        [
+            "en:Asia/Pyongyang:1480672885933",
+            "12/2/2016, 6:31 PM"
+        ],
+        [
+            "en:Asia/Dili:1480672885934",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Asia/Jayapura:1480672885934",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Asia/Seoul:1480672885935",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Asia/Tokyo:1480672885936",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Asia/Yakutsk:1480672885937",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Pacific/Palau:1480672885937",
+            "12/2/2016, 7:01 PM"
+        ],
+        [
+            "en:Australia/Adelaide:1480672885938",
+            "12/2/2016, 8:31 PM"
+        ],
+        [
+            "en:Australia/Darwin:1480672885939",
+            "12/2/2016, 7:31 PM"
+        ],
+        [
+            "en:Antarctica/DumontDUrville:1480672885940",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Asia/Vladivostok:1480672885940",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Australia/Brisbane:1480672885941",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Australia/Hobart:1480672885942",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Australia/Sydney:1480672885943",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Chuuk:1480672885943",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Pacific/Guam:1480672885944",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Pacific/Port_Moresby:1480672885945",
+            "12/2/2016, 8:01 PM"
+        ],
+        [
+            "en:Asia/Magadan:1480672885947",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Efate:1480672885947",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Guadalcanal:1480672885948",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Kosrae:1480672885949",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Norfolk:1480672885950",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Noumea:1480672885951",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Pacific/Pohnpei:1480672885952",
+            "12/2/2016, 9:01 PM"
+        ],
+        [
+            "en:Asia/Kamchatka:1480672885952",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Auckland:1480672885953",
+            "12/2/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Fiji:1480672885954",
+            "12/2/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Funafuti:1480672885955",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Kwajalein:1480672885956",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Majuro:1480672885957",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Nauru:1480672885957",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Tarawa:1480672885958",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Wake:1480672885959",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Wallis:1480672885961",
+            "12/2/2016, 10:01 PM"
+        ],
+        [
+            "en:Pacific/Apia:1480672885962",
+            "12/3/2016, 12:01 AM"
+        ],
+        [
+            "en:Pacific/Enderbury:1480672885963",
+            "12/2/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Fakaofo:1480672885964",
+            "12/2/2016, 11:01 PM"
+        ],
+        [
+            "en:Pacific/Kiritimati:1480672885966",
+            "12/3/2016, 12:01 AM"
+        ]
+    ];
+</script>
+<script type="text/javascript">
+    function out(text) {
+        var msg = document.createElement('div');
+        msg.innerHTML = text;
+        document.getElementById('output').appendChild(msg);
+    }
+
+    function status(text) {
+        document.getElementById('status').innerHTML = text;
+    }
+
+    var testIndex = 0;
+    var failIndex = 0;
+
+    function test(i) {
+        var testFixture = testFixtures[i],
+            expected = testFixture[1],
+            param = testFixture[0].split(':'),
+            actual,
+            option = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric'
+            };
+
+        option.timeZone = param[1];
+
+        try {
+            actual = new Intl.DateTimeFormat(param[0], option).format(new Date(param[2] * 1)).replace('،', '');
+            if (actual !== expected.replace('،', '')) {
+                out('Failed expected=' + expected.format(new Date(param[2] * 1)).toLowerCase() + ' actual=' + actual +' testFixture='+ testFixture[0]);
+                failIndex = failIndex + 1;
+            } else {
+                //out('Success fixture:'+ testFixture[0]);
+            }
+        } catch (e) {
+            failIndex = failIndex + 1;
+            out('Exp: Failed for fixture:' + testFixture[0] + '===' + new Date(param[2] * 1));
+        }
+
+        testIndex = testIndex + 1;
+    }
+
+
+    function next() {
+        setTimeout(function() {
+            test(testIndex);
+            if (testIndex < testFixtures.length) {
+                next();
+                status('Done ' + (testIndex+1) + '/' + testFixtures.length + ' Passed:' + (testIndex + 1 - failIndex) + " Failed:" + failIndex);
+            } else {
+                out('Done!!');
+            }
+        }, 1);
+    };
+
+    next();
+</script>
+
+</html>
