@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markandey/date-time-format-timezone.git"
+    "url": "git+https://github.com/yahoo/date-time-format-timezone.git"
   },
   "keywords": [
     "Intl",
@@ -56,7 +56,7 @@
     "time zone"
   ],
   "bugs": {
-    "url": "https://github.com/markandey/date-time-format-timezone/issues"
+    "url": "https://github.com/yahoo/date-time-format-timezone/issues"
   },
-  "homepage": "https://github.com/markandey/date-time-format-timezone#readme"
+  "homepage": "https://github.com/yahoo/date-time-format-timezone#readme"
 }
