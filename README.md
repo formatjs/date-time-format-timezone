@@ -1,8 +1,8 @@
 # Intl.DateTimeFormat timezone polyfill
 Surgically polyfills timezone support in `Intl.DateTimeFormat` API
 
-[![Build Status][]](https://travis-ci.org/markandey/DateTimeFormatTimeZone)  [![NPMRel][]](https://www.npmjs.com/package/date-time-format-timezone)
-[Build Status]: https://travis-ci.org/markandey/DateTimeFormatTimeZone.svg?branch=master
+[![Build Status][]](https://travis-ci.org/yahoo/date-time-format-timezone)  [![NPMRel][]](https://www.npmjs.com/package/date-time-format-timezone)
+[Build Status]: https://travis-ci.org/yahoo/date-time-format-timezone.svg?branch=master
 [NPMRel]: https://img.shields.io/npm/v/date-time-format-timezone.svg
 
 Some [browsers do not support arbitrary time zone ](http://kangax.github.io/compat-table/esintl/) in Intl.DateTimeFormat API (becuase its optional as per [ECMA-402 standard](https://www.ecma-international.org/ecma-402/1.0/#sec-6.4)). This polyfill is only to bring this support. Polyfill contains historical timezone data, CLDR data & tiny code to polyfill this support.
