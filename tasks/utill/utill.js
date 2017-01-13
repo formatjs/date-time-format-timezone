@@ -85,8 +85,9 @@ function getPolyfillPackageModule(files) {
 	let moduleLines = [];
 
 	moduleLines.push(`${copyRightText}\nvar myGlobal = (typeof global !== "undefined" && {}.toString.call(global) === \'[object global]\') ? global : window;`);
-	moduleLines = moduleLines.concat(files.map((file) => {
-		return `(require('${file}'))(myGlobal);`;
+	moduleLines = moduleLines.concat(files.map(file => {
+		const exportedFn = file.indexOf('code/') >= 0 ? '.default' : '';
+		return `(require('${file}')${exportedFn})(myGlobal);`;
 	}));
 	moduleLines.push('module.exports = myGlobal.Intl.DateTimeFormat;');
 
@@ -101,7 +102,7 @@ function forEachKeyDeep(object, callback, depthCheckFn, base) {
 		return;
 	}
 
-	Object.keys(object).forEach((key) => {
+	Object.keys(object).forEach(key => {
 		const value = object[key],
 			newBase = base.concat([key]);
 		if (!depthCheckFn(value)) {

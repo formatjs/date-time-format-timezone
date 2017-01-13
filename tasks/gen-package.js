@@ -303,6 +303,10 @@ const goldenTimeZones = [
 ];
 
 const packages = [{
+	name: 'index',
+	timeZoneListType: 'all',
+	localeListType: 'all'
+}, {
 	name: basename + '-golden-zones-no-locale',
 	timeZoneListType: 'golden',
 	localeListType: 'none'
@@ -317,15 +321,17 @@ const packages = [{
 }];
 
 function getLocaleList(type) {
+	const metaZone = ['data/metazone.js'];
+
 	if (type === 'none') {
 		return [];
 	}
 	if (type === 'all') {
-		return ['data/locale.js'];
+		return metaZone.concat(['data/locale.js']);
 	}
-	return goldenLocales.map((locale) => {
+	return metaZone.concat(goldenLocales.map(locale => {
 		return `data/locales/locale-${locale}.js`;
-	});
+	}));
 }
 
 function getTimeZoneList(type) {
@@ -335,7 +341,7 @@ function getTimeZoneList(type) {
 	if (type === 'all') {
 		return ['data/tzdata.js'];
 	}
-	return goldenTimeZones.map((tz) => {
+	return goldenTimeZones.map(tz => {
 		const mappedTz = tzmap[tz];
 		return `data/timezones/tzdata-${mappedTz.replace(/\//g, '-').toLowerCase()}.js`;
 	});
@@ -347,10 +353,10 @@ function generatePackages(grunt) {
 		srcBase + 'code/data-loader.js'
 	];
 
-	packages.forEach((pkg) => {
+	packages.forEach(pkg => {
 		const list = files.
-		concat(getTimeZoneList(pkg.timeZoneListType).map((p) => srcBase + p)).
-		concat(getLocaleList(pkg.localeListType).map((p) => srcBase + p));
+		concat(getTimeZoneList(pkg.timeZoneListType).map(p => srcBase + p)).
+		concat(getLocaleList(pkg.localeListType).map(p => srcBase + p));
 
 		grunt.file.write(`${buildDir}/src/${pkg.name}.js`, Utill.getPolyfillPackageModule(list));
 	});
