@@ -15,7 +15,7 @@ const utill = require('./utill.js');
 function pluckHeader(localeTimeZoneNameMapWithHeader) {
 	const localeTimeZoneNameMap = {};
 
-	Object.keys(localeTimeZoneNameMapWithHeader).forEach((locale) => {
+	Object.keys(localeTimeZoneNameMapWithHeader).forEach(locale => {
 		const json = localeTimeZoneNameMapWithHeader[locale];
 
 		if (!(json &&
@@ -52,7 +52,7 @@ function getZoneNameLeafIndexer(wordIndexer) {
 	return function({
 		zoneNames
 	}) {
-		getZoneNameQuadruplet(zoneNames).forEach((q) => q.split(/([\s,-])/).forEach((word) => word && wordIndexer.index(word, {
+		getZoneNameQuadruplet(zoneNames).forEach(q => q.split(/([\s,-])/).forEach(word => word && wordIndexer.index(word, {
 			frequency: true
 		})));
 	};
@@ -92,7 +92,7 @@ LocaleDataUtil.prototype = {
 			return;
 		}
 
-		Object.keys(this.map).forEach((locale) => {
+		Object.keys(this.map).forEach(locale => {
 			callback(locale, this.map[locale].timeZoneNames);
 		});
 	},
@@ -116,7 +116,7 @@ LocaleDataUtil.prototype = {
 
 		this.forEachLocale(localeCurry, (locale, timeZoneNames) => {
 			const metaZones = timeZoneNames.metazone;
-			Object.keys(metaZones).forEach((metaZoneKey) => {
+			Object.keys(metaZones).forEach(metaZoneKey => {
 				callback({
 					zoneNames: metaZones[metaZoneKey],
 					metaZoneName: metaZoneKey,
@@ -143,7 +143,7 @@ LocaleDataUtil.prototype = {
 						locale: locale
 					});
 				}
-			}, (v) => (v.exemplarCity || v.long || v.short));
+			}, v => (v.exemplarCity || v.long || v.short));
 		});
 	},
 
@@ -160,7 +160,7 @@ LocaleDataUtil.prototype = {
 		});
 		return {
 			map: map,
-			list: sortedList.map((value) => value.value)
+			list: sortedList.map(value => value.value)
 		};
 	},
 
@@ -173,9 +173,6 @@ LocaleDataUtil.prototype = {
 			packedLocaleData[locale] = {
 				gmtFormat: tzNames.gmtFormat,
 				gmtZeroFormat: tzNames.gmtZeroFormat,
-				// 'regionFormat-type-daylight': tzNames['regionFormat-type-daylight'],
-				// 'regionFormat-type-standard': tzNames['regionFormat-type-standard'],
-				// fallbackFormat: tzNames.fallbackFormat,
 				zone: {},
 				metazone: {}
 			};

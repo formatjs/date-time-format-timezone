@@ -23,7 +23,7 @@ function indexTimeZoneData(unpacked, timeZone) {
 		offsetIndexer = utill.indexer(),
 		historyListIndexer = utill.indexer();
 
-	Object.keys(unpacked).forEach((zoneName) => {
+	Object.keys(unpacked).forEach(zoneName => {
 		const zone = unpacked[zoneName];
 		let historyString = [];
 
@@ -31,7 +31,7 @@ function indexTimeZoneData(unpacked, timeZone) {
 			return;
 		}
 
-		zone.histories.forEach((history) => {
+		zone.histories.forEach(history => {
 			const offsetIndex = offsetIndexer.index(history.offset),
 				untillIndex = timeStampIndexer.index(history.until.toString(32)),
 				isdst = history.isdst;
@@ -64,7 +64,7 @@ TimeZoneDataUtil.prototype = {
 		additionalZones = additionalZones || [];
 
 		return {
-			zoneDefs: this.index.historyListIndexer.indices.map((history) => {
+			zoneDefs: this.index.historyListIndexer.indices.map(history => {
 				return additionalZones.concat(history.reverseMap).join(',') + '||' + history.value;
 			}),
 			timeStamps: this.index.timeStampIndexer.indices,
@@ -75,7 +75,7 @@ TimeZoneDataUtil.prototype = {
 	getUniqueTimeZoneMap: function() {
 		const map = {};
 
-		this.index.historyListIndexer.indices.forEach((history) => {
+		this.index.historyListIndexer.indices.forEach(history => {
 			map[history.reverseMap[0]] = history.reverseMap.slice(1);
 		});
 
@@ -89,7 +89,7 @@ TimeZoneDataUtil.prototype = {
 			return;
 		}
 
-		Object.keys(map).forEach((timeZoneName) => {
+		Object.keys(map).forEach(timeZoneName => {
 			callback(timeZoneName, map[timeZoneName]);
 		});
 	},
@@ -103,7 +103,7 @@ TimeZoneDataUtil.prototype = {
 
 		this.forEachUniqueTimeZone((timeZoneName, additionalZones) => {
 			timeZoneMap[timeZoneName] = timeZoneName;
-			additionalZones.forEach((additionalZone) => {
+			additionalZones.forEach(additionalZone => {
 				timeZoneMap[additionalZone] = timeZoneName;
 			});
 		});

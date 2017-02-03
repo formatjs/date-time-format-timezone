@@ -5,6 +5,7 @@ import timeStampTests from './test-data/time-stamp-fixtures.js';
 import localeTests from './test-data/locale-test-fixtures.js';
 import polyfill from '../src/code/polyfill.js';
 import dataLoader from '../src/code/data-loader.js';
+import tzdataMoonLanding from './test-data/tzdata-moon-nearside.js';
 import tzdata from '../src/data/tzdata.js';
 import locale from '../src/data/locale.js';
 import metazone from '../src/data/metazone.js';
@@ -18,11 +19,28 @@ polyfill(myGlobal);    // Applies polyfill in place
 metazone(myGlobal);    // Data which maps zoneName to cldr metaNames
 tzdata(myGlobal);      // Loads timezone iana data in memory
 locale(myGlobal);      // Loads timezone CLDR data in memory
+tzdataMoonLanding(myGlobal);
 
 describe('Polyfill with complete package', () => {
 	describe('DateTimeFormat', () => {
+		describe('Instanceof integrity', () => {
+			it('nativedDateTimeFormat  instanceof Intl.DateTimeFormat', () => {
+				const nativedDateTimeFormat = new Intl.DateTimeFormat(locale, {
+					timeZone: 'America/Los_Angeles'
+				});
+				assert.equal(nativedDateTimeFormat instanceof Intl.DateTimeFormat, true);
+			});
+
+			it('polyfilledDateTimeFormat  instanceof Intl.DateTimeFormat', () => {
+				const polyfilledDateTimeFormat = new Intl.DateTimeFormat(locale, {
+					timeZone: 'Moon/Nearside'
+				});
+				assert.equal(polyfilledDateTimeFormat instanceof Intl.DateTimeFormat, true);
+			});
+		});
+
 		describe('.format(locale, option)', () => {
-			timeStampTests.forEach((testFixture) => {
+			timeStampTests.forEach(testFixture => {
 				const param = testFixture[0].split(':'),
 					locale = param[0],
 					timeZone = param[1],
@@ -49,7 +67,7 @@ describe('Polyfill with complete package', () => {
 
 			});
 
-			localeTests.forEach((testFixture) => {
+			localeTests.forEach(testFixture => {
 				const param = testFixture[0].split(','),
 					locale = param[0],
 					timeZone = param[1],
@@ -75,7 +93,7 @@ describe('Polyfill with complete package', () => {
 		});
 		describe('.resolvedOptions()', () => {
 			it('should reflect correct timeZone added', () => {
-				const inputTimezone = 'Asia/Calcutta',
+				const inputTimezone = 'Moon/Nearside',
 					option = {
 						year: 'numeric',
 						month: 'numeric',
@@ -172,7 +190,7 @@ describe('Polyfill with complete package', () => {
 				outputTimeString: '5, 7:35:13 PM'
 			}];
 		describe('.toLocaleString(locale option)', () => {
-			stringTestData.forEach((test) => {
+			stringTestData.forEach(test => {
 				if (date.getTimezoneOffset()!==480 && !(test.option && test.option.timeZone)) {
 					console.log('Environment Timezone must be America/Los_Angeles to run some tests');
 					return;
@@ -183,7 +201,7 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 		describe('.toLocaleDateString(locale option)', () => {
-			stringTestData.forEach((test) => {
+			stringTestData.forEach(test => {
 				if (date.getTimezoneOffset()!==480 && !(test.option && test.option.timeZone)) {
 					console.log('Environment Timezone must be America/Los_Angeles to run some tests');
 					return;
@@ -194,7 +212,7 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 		describe('.toLocaleTimeString(locale option)', () => {
-			stringTestData.forEach((test) => {
+			stringTestData.forEach(test => {
 				if (date.getTimezoneOffset()!==480 && !(test.option && test.option.timeZone)) {
 					console.log('Environment Timezone must be America/Los_Angeles to run some tests');
 					return;

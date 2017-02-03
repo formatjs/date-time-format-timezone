@@ -29,9 +29,9 @@ const path = require('path'),
 	zdumpLinePattern = /([a-z]{3}\s+?[a-z]{3}\s+?[0-9]{1,2}\s+?[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\s+?[0-9]{0,4}\s+UTC)\s+=\s+([a-z]{3}\s+?[a-z]{3}\s+?[0-9]{1,2}\s+?[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}\s+?[0-9]{0,4})\s+([a-z0-9+\-]{3,7})\s+isdst=([01])/i;
 
 function download(grunt) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		grunt.log.ok(`Downloading ${src}`);
-		exec(`curl ${src} -o ${tarDir} && cd ${extractDir} && gzip -dc ${tarDir} | tar -xf -`, (err) => {
+		exec(`curl ${src} -o ${tarDir} && cd ${extractDir} && gzip -dc ${tarDir} | tar -xf -`, err => {
 			if (err) {
 				throw err;
 			}
@@ -42,7 +42,7 @@ function download(grunt) {
 }
 
 function compile(grunt) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const files = ['africa',
 			'antarctica',
 			'asia',
@@ -65,7 +65,7 @@ function compile(grunt) {
 			const file = files.shift(),
 				src = path.resolve(extractDir, file);
 
-			exec('zic -d ' + zicDir + ' ' + src, (err) => {
+			exec('zic -d ' + zicDir + ' ' + src, err => {
 				if (err) {
 					throw err;
 				}
@@ -81,7 +81,7 @@ function compile(grunt) {
 }
 
 function zdump(grunt) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const files = grunt.file.expand({
 			filter: 'isFile',
 			cwd: zicDir
@@ -118,20 +118,20 @@ function zdump(grunt) {
 }
 
 function generateTimeZoneData(grunt) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const files = grunt.file.expand({
 				filter: 'isFile',
 				cwd: zdumpBase
 			}, '**/*.zdump'),
 			unpacked = {};
 
-		files.forEach((file) => {
+		files.forEach(file => {
 			const lines = grunt.file.read(path.join(zdumpBase, file)).split('\n'),
 				name = file.replace(/\.zdump$/, '');
 
 			let histories = [];
 
-			lines.forEach((line) => {
+			lines.forEach(line => {
 				const match = line.match(zdumpLinePattern),
 					utcString = match && match[1],
 					localString = match && match[2] + ' UTC',
@@ -212,7 +212,7 @@ function generateTimeZoneData(grunt) {
 }
 
 function generateMetaZoneData(grunt) {
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const json = grunt.file.readJSON(metaZonesFile),
 			metaZone = {};
 
@@ -226,7 +226,7 @@ function generateMetaZoneData(grunt) {
 		}
 
 		Utill.forEachKeyDeep(json.supplemental.metaZones.metazoneInfo.timezone, (base, value) => {
-			metaZone[base.join('/')] = value.map((zone) => {
+			metaZone[base.join('/')] = value.map(zone => {
 				const mappedZone = {};
 
 				if (!zone.usesMetazone) {
@@ -245,7 +245,7 @@ function generateMetaZoneData(grunt) {
 
 				return mappedZone;
 			});
-		}, (value)=>Array.isArray(value));
+		}, value=>Array.isArray(value));
 		grunt.file.write(`${dataDir}/metazone.js`, Utill.getLoaderModule('_metaZoneData', JSON.stringify(metaZone, null, 4)));
 		grunt.log.writeln('MetaZone data generation done!');
 		resolve();
@@ -255,20 +255,20 @@ function generateMetaZoneData(grunt) {
 function generateLocaleData(grunt) {
 	grunt.log.ok(`generateLocaleData`);
 
-	return new Promise((resolve) => {
+	return new Promise(resolve => {
 		const files = grunt.file.expand({
 				filter: 'isFile',
 				cwd: cldrDatesFullDir
 			}, '**/timeZoneNames.json'),
 			allLocaleData = {};
 
-		files.forEach((file) => {
+		files.forEach(file => {
 			const timeZoneNamesData = grunt.file.readJSON(path.join(cldrDatesFullDir, file));
 			if (!timeZoneNamesData.main) {
 				grunt.warn(`wrong timeZoneNames file ${file}`);
 				return;
 			}
-			Object.keys(timeZoneNamesData.main).forEach((localeName) => {
+			Object.keys(timeZoneNamesData.main).forEach(localeName => {
 				allLocaleData[localeName] = timeZoneNamesData.main[localeName];
 			});
 
@@ -278,7 +278,7 @@ function generateLocaleData(grunt) {
 
 		grunt.file.write(`${dataDir}/locale.js`, localeDataUtil.toModuleString());
 
-		localeDataUtil.forEachLocale(null, (locale) => {
+		localeDataUtil.forEachLocale(null, locale => {
 			grunt.file.write(`${dataDir}/locales/locale-${locale}.js`, localeDataUtil.toModuleString(locale));
 		});
 
