@@ -1,7 +1,17 @@
 {
   "name": "date-time-format-timezone",
   "version": "1.0.16",
-  "author": "Markandey Singh",
+  "author": "Markandey Singh <markandeysingh@yahoo.com>",
+  "contributors": [{
+    "name": "Juan Dopazo",
+    "email": "dopazo.juan@gmail.com"
+  }, {
+    "name": "Julien Lecomte",
+    "email": "julien.lecomte@gmail.com"
+  }, {
+    "name": "Dav Glass",
+    "email": "davglass@gmail.com"
+  }],
   "license": "BSD 3-clause",
   "description": "Surgically polyfills timezone support in Intl.DateTimeFormat API",
   "main": "build/src/index.js",
