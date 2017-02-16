@@ -94,6 +94,10 @@ function getPolyfillPackageModule(files) {
 	return moduleLines.join('\n');
 }
 
+function getBrowserifiedDataFile(namespace, json) {
+	return `${copyRightText}\nIntl.${namespace}.load(${json});`;
+}
+
 function forEachKeyDeep(object, callback, depthCheckFn, base) {
 	if (!base) {
 		base = [];
@@ -118,5 +122,6 @@ module.exports = {
 	getJSONModule: getJSONModule,
 	indexer: indexer,
 	forEachKeyDeep: forEachKeyDeep,
+	getBrowserifiedDataFile: getBrowserifiedDataFile,
 	getPolyfillPackageModule: getPolyfillPackageModule
 };

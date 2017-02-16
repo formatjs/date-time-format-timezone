@@ -10,16 +10,19 @@ Some [browsers do not support arbitrary time zone ](http://kangax.github.io/comp
 ## How to use?
 
    1. install
+
 	```sh
 	npm i date-time-format-timezone
 	```
 
    1. nodejs
+
 	```js
 	require('date-time-format-timezone'); // polyfill is ready
 	```
 
    1. browser
+
 	```html
 	<script src="build/browserified/date-time-format-time-zone-complete-min.js">
 	```
@@ -76,9 +79,13 @@ npm publish
 |                            | Minified | gzipped |
 |----------------------------|----------|---------|
 | complete                   | 2.64MB   | 322KB   |
-| top zones only no locale   | 369.32KB | 71KB    |
+| top zones<sup>1</sup> only no locale   | 369.32KB | 71KB    |
 | all zones no locale        | 303.19KB | 75KB    |
-| top zones top locale       | 641.86KB | 148KB   |
+| top zones<sup>1</sup> top locale<sup>2</sup>       | 641.86KB | 148KB   |
+
+  *1. top zones are custom listed timezones [here](https://github.com/yahoo/date-time-format-timezone/blob/master/tasks/gen-package.js#L51).
+  *2. top locales are custom listed locales [here](https://github.com/yahoo/date-time-format-timezone/blob/master/tasks/gen-package.js#L13).
+
 
 ## References
    1. http://www.unicode.org/reports/tr35/tr35-dates.html#Using_Time_Zone_Names

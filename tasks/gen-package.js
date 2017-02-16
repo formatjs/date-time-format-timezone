@@ -9,7 +9,9 @@ const Utill = require('./utill/utill.js'),
 
 const basename = 'date-time-format-timezone';
 const srcBase = "./";
+const dataDir ='src/data';
 const buildDir = 'build';
+const browserifiedDataDir = `${buildDir}/browserified/data`;
 const goldenLocales = ["en",
 	"ar",
 	"ca",
@@ -303,6 +305,10 @@ const goldenTimeZones = [
 ];
 
 const packages = [{
+	name: basename + '-no-data',
+	timeZoneListType: 'none',
+	localeListType: 'none'
+}, {
 	name: 'index',
 	timeZoneListType: 'all',
 	localeListType: 'all'
@@ -361,8 +367,72 @@ function generatePackages(grunt) {
 		grunt.file.write(`${buildDir}/src/${pkg.name}.js`, Utill.getPolyfillPackageModule(list));
 	});
 }
+
+/**
+* Returns object with filename and content for browserfied file.
+* @method browserifyDataFile
+* @param {String} inputFile: path of input data file
+* @param {String} dataname {e.g. _localeData or _timeZoneData}
+* @return {String} Returns content for file.
+*/
+function browserifyDataFileContent(inputFile, dataname) {
+	const globalStub = {
+		Intl: {}
+	};
+
+	globalStub.Intl[dataname] = {
+		load: function(data) {
+			this.value = data;
+		}
+	};
+
+	// data- files are basically a module which calls
+	// Intl._localeData.load function
+	// if we pass stubbed global we get JSON in globalStub.Intl[dataname].value
+	(require(inputFile)(globalStub));
+	const outputJSON = globalStub.Intl[dataname].value;
+
+	return Utill.getBrowserifiedDataFile(dataname, JSON.stringify(outputJSON));
+}
+
+/**
+* Creates browserified version of data files.
+* @method browserifyDataFiles
+* @param {Grunt} grunt
+*/
+function browserifyDataFiles(grunt) {
+	const dataFolders = [{
+		subpath: 'locales',
+		name: '_localeData',
+		expand: '*.js'
+	}, {
+		subpath: 'timezones',
+		name: '_timeZoneData',
+		expand: '*.js'
+	}, {
+		subpath: '',
+		name: '_metaZoneData',
+		expand: 'metazone.js'
+	}];
+
+	dataFolders.forEach(folder => {
+		const files = grunt.file.expand({
+			filter: 'isFile',
+			cwd: dataDir + '/' + folder.subpath
+		}, folder.expand);
+
+		files.forEach(file => {
+			const inputFile = `../${dataDir}/${folder.subpath}/${file}`;
+			const outputFile = `${browserifiedDataDir}/${folder.subpath}/${file}`;
+			const content = browserifyDataFileContent(inputFile, folder.name);
+			grunt.file.write(outputFile, content);
+		});
+	});
+}
+
 module.exports = function(grunt) {
 	grunt.registerTask('gen-package', 'generates pre-configured packages', () => {
 		generatePackages(grunt);
+		browserifyDataFiles(grunt);
 	});
 };
