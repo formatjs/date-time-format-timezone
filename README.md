@@ -11,22 +11,23 @@ Some [browsers do not support arbitrary time zone ](http://kangax.github.io/comp
 
    1. install
 
-	```sh
-	npm i date-time-format-timezone
-	```
+	`npm i date-time-format-timezone`
 
    1. nodejs
 
-	```js
-	require('date-time-format-timezone'); // polyfill is ready
-	```
+	`require('date-time-format-timezone'); // polyfill is ready`
 
    1. browser
 
-	```html
-	<script src="build/browserified/date-time-format-time-zone-complete-min.js">
-	```
+	`<script src="build/browserified/date-time-format-time-zone-complete-min.js">`
+  or
 
+  ```
+    <script src="build/browserified/date-time-format-time-zone-no-data.js">
+    <script src="build/browserified/data/locales/locale-en-US-POSIX.js">
+    <script src="build/browserified/data/metazone.js">
+    <script src="build/browserified/data/timezones/tzdata-america-los_angeles.js">
+  ```
 This polyfill can add this support.
 
 ```javascript
