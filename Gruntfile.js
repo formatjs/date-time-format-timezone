@@ -195,6 +195,9 @@ module.exports = function(grunt) {
 				changelogText: false,
 				tagName: 'v<%= version %>',
 				commitMessage: '<%= version %>'
+			},
+			github: {
+				repo: 'yahoo/date-time-format-timezone'
 			}
 		},
 		clean: {

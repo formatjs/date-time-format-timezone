@@ -1,6 +1,6 @@
 {
   "name": "date-time-format-timezone",
-  "version": "1.0.16",
+  "version": "1.0.20-alpha.0",
   "author": "Markandey Singh <markandeysingh@yahoo.com>",
   "contributors": [{
     "name": "Juan Dopazo",
