@@ -45,11 +45,17 @@ module.exports = function(grunt) {
 
 		},
 		browserify: {
+			srcNoData: {
+				src: [
+					'build/src/date-time-format-timezone-no-data.js'
+				],
+				dest: 'build/browserified/date-time-format-timezone-no-data.js'
+			},
 			srcIndex: {
 				src: [
 					'build/src/index.js'
 				],
-				dest: 'build/browserified/date-time-format-time-zone-complete.js'
+				dest: 'build/browserified/date-time-format-timezone-complete.js'
 			},
 			srcGZNL: {
 				src: [
@@ -89,10 +95,16 @@ module.exports = function(grunt) {
 			}
 		},
 		uglify: {
+			srcNoData: {
+				src: [
+					'build/browserified/date-time-format-timezone-no-data.js'
+				],
+				dest: 'build/browserified/date-time-format-timezone-no-data-min.js'
+			},
 			srcIndex: {
 				files: {
-					'build/browserified/date-time-format-time-zone-complete-min.js': [
-						'build/browserified/date-time-format-time-zone-complete.js'
+					'build/browserified/date-time-format-timezone-complete-min.js': [
+						'build/browserified/date-time-format-timezone-complete.js'
 					]
 				}
 
