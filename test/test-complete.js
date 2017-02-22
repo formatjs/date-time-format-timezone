@@ -90,6 +90,21 @@ describe('Polyfill with complete package', () => {
 				}
 			});
 
+			it('should format with current time, if date is passed as null or undefined or number', () => {
+				const now = new Date();
+				const option = {
+						year: 'numeric',
+						month: 'numeric',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric',
+						timeZone: 'Moon/Nearside'
+					};
+				const locale = 'en';
+
+				assert.equal(new Intl.DateTimeFormat(locale, option).format(now), new Intl.DateTimeFormat(locale, option).format(undefined));
+				assert.equal(new Intl.DateTimeFormat(locale, option).format(now), new Intl.DateTimeFormat(locale, option).format(null));
+			});
 		});
 		describe('.resolvedOptions()', () => {
 			it('should reflect correct timeZone added', () => {
