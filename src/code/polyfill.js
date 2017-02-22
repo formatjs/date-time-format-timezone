@@ -96,6 +96,14 @@ export default function polyfill(globalSpace) {
                 return super.format(date);
             }
 
+            if (date === null || date === undefined) {
+                date = new Date();
+            }
+
+            if (!(date instanceof Date)) {
+                date = new Date(date);
+            }
+
             const polyfill = this._dateTimeFromatPolyfill;
             const timeZoneOffsetInfo = getTimeZoneOffsetInfo(polyfill.timeZoneData, date);
             const timeZoneOffset = timeZoneOffsetInfo.offset * 60000;
