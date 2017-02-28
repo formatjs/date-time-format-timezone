@@ -1,8 +1,12 @@
 language: node_js
 node_js:
   - "6"
+
 addons:
   firefox: "49.0"
+  sauce_connect:
+    username: "date-time-format-timezone"
+    access_key: "***********************"
 install:
   - npm install
 before_script:
