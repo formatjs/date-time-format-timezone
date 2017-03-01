@@ -92,7 +92,7 @@ export default function polyfill(globalSpace) {
         }
 
         format(date) {
-            if (!this._dateTimeFromatPolyfill) {
+            if (!this._dateTimeFormatPolyfill) {
                 return super.format(date);
             }
 
@@ -104,7 +104,7 @@ export default function polyfill(globalSpace) {
                 date = new Date(date);
             }
 
-            const polyfill = this._dateTimeFromatPolyfill;
+            const polyfill = this._dateTimeFormatPolyfill;
             const timeZoneOffsetInfo = getTimeZoneOffsetInfo(polyfill.timeZoneData, date);
             const timeZoneOffset = timeZoneOffsetInfo.offset * 60000;
             const shiftedDate = new Date(date.getTime() + timeZoneOffset); // We need to  format time by offseting it
