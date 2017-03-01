@@ -39,15 +39,15 @@ export default function polyfill(globalSpace) {
             const timeZone = (options && options.timeZone) || 'UTC';
 
             if (options === undefined) {
-                // options is provided. this means
-                // we dont need  to format a arbitraray timezone
+                // options is not provided. this means
+                // we don't need to format arbitrary timezone
                 super(locale, options);
 
                 return;
             }
 
             if (checkTimeZoneSupport(timeZone)) {
-                // native method has support for timezone. no pollifyll logic needed.
+                // native method has support for timezone. no polyfill logic needed.
                 super(locale, options);
 
                 return;
@@ -55,8 +55,8 @@ export default function polyfill(globalSpace) {
 
             const timeZoneData = gIntl._timeZoneData.get(timeZone);
 
+            // check if we have timezone data for this timezone
             if (!timeZoneData) {
-                // check if we have timezone data for this timezone
                 throw new RangeError(`invalid time zone in DateTimeFormat():  ${timeZone}`);
             }
 
@@ -70,14 +70,14 @@ export default function polyfill(globalSpace) {
             if (options.timeZoneName !== undefined) {
                 // We need to include timeZoneName in date format.
                 // Check if we have locale data to able to do that.
-                if (!(gIntl._localeData.get(resolvedLocale) && // availlabillity of localedata
-                        Intl._metaZoneData.get(timeZone))) {   // availlabillity of  metaZone for this timeZone
+                if (!(gIntl._localeData.get(resolvedLocale) && // availability of localedata
+                        Intl._metaZoneData.get(timeZone))) {   // availability of metaZone for this timeZone
                     throw new RangeError(`unsupported value "${options.timeZoneName}" for timeZone ${timeZone}. requires locale data for ${resolvedLocale}`);
                 }
             }
 
-            // to minimize pollution. everything we need to perform polyfill is wraped under one object.
-            this._dateTimeFromatPolyfill = {
+            // to minimize pollution everything we need to perform polyfill is wrapped under one object.
+            this._dateTimeFormatPolyfill = {
                 optionTimeZone: timeZone,
                 optionTimeZoneName: options.timeZoneName,
                 timeZoneData: timeZoneData
@@ -92,7 +92,7 @@ export default function polyfill(globalSpace) {
         }
 
         format(date) {
-            if (!this._dateTimeFromatPolyfill) {
+            if (!this._dateTimeFormatPolyfill) {
                 return super.format(date);
             }
 
@@ -104,7 +104,7 @@ export default function polyfill(globalSpace) {
                 date = new Date(date);
             }
 
-            const polyfill = this._dateTimeFromatPolyfill;
+            const polyfill = this._dateTimeFormatPolyfill;
             const timeZoneOffsetInfo = getTimeZoneOffsetInfo(polyfill.timeZoneData, date);
             const timeZoneOffset = timeZoneOffsetInfo.offset * 60000;
             const shiftedDate = new Date(date.getTime() + timeZoneOffset); // We need to  format time by offseting it
@@ -114,7 +114,7 @@ export default function polyfill(globalSpace) {
 
             if (doNeedToReplaceTimeZoneName) {
                 /*
-                    Since our timeshifted native format  will only return UTC timeZone Name e.g. "1/31/2017, 6:39:55 PM GMT"
+                    Since our timeshifted native format will only return UTC timeZone Name e.g. "1/31/2017, 6:39:55 PM GMT"
                     We have to replace GMT that with actual timezone name. like "Pacific Standard Time"
                     This is achived by replacing timeZoneNameUTC with timeZoneName
                 */
@@ -147,11 +147,11 @@ export default function polyfill(globalSpace) {
         }
 
         resolvedOptions() {
-            if (this._dateTimeFromatPolyfill) {
+            if (this._dateTimeFormatPolyfill) {
                 // since we have altered timezone option for super.
                 // we need to correct that before returing.
                 const options = jsonClone(super.resolvedOptions());
-                options.timeZone = this._dateTimeFromatPolyfill.optionTimeZone;
+                options.timeZone = this._dateTimeFormatPolyfill.optionTimeZone;
 
                 return options;
             }
@@ -214,7 +214,7 @@ export default function polyfill(globalSpace) {
         if (options.day === undefined &&
             options.month === undefined &&
             options.year === undefined) {
-            // LocaleDateString must contain one or more from day month & year
+            // LocaleDateString must contain one or more from day, month & year
             // if none is specified we should fallback to to choose day, month and year
             options = jsonClone(options);
             options.day = defaultDateOption.day;
