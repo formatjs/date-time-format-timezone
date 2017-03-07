@@ -2,6 +2,11 @@
 
 module.exports = function(config) {
 	const customLaunchers = {
+		sl_ie_10: {
+			base: 'SauceLabs',
+			browserName: 'internet explorer',
+			version: '10'
+		},
 		sl_ie_11: {
 			base: 'SauceLabs',
 			browserName: 'internet explorer',
@@ -40,6 +45,6 @@ module.exports = function(config) {
 		browserNoActivityTimeout: 100000,
 		port: 9999,
 		singleRun: true,
-		browsers: ['sl_edge', 'sl_ie_11', 'sl_safari']
+		browsers: ['sl_ie_10', 'sl_edge', 'sl_ie_11', 'sl_safari']
 	});
 };

@@ -3,6 +3,7 @@
 import assert from 'assert';
 import timeStampTests from './test-data/time-stamp-fixtures.js';
 import localeTests from './test-data/locale-test-fixtures.js';
+import formatToPartTests from './test-data/format-to-parts-fixtures.js';
 import polyfill from '../src/code/polyfill.js';
 import dataLoader from '../src/code/data-loader.js';
 import tzdataMoonLanding from './test-data/tzdata-moon-nearside.js';
@@ -26,7 +27,7 @@ describe('Polyfill with complete package', () => {
 		describe('Instanceof integrity', () => {
 			it('nativedDateTimeFormat  instanceof Intl.DateTimeFormat', () => {
 				const nativedDateTimeFormat = new Intl.DateTimeFormat('en', {
-					timeZone: 'America/Los_Angeles'
+					timeZone: 'UTC'
 				});
 				assert.equal(nativedDateTimeFormat instanceof Intl.DateTimeFormat, true);
 			});
@@ -36,6 +37,36 @@ describe('Polyfill with complete package', () => {
 					timeZone: 'Moon/Nearside'
 				});
 				assert.equal(polyfilledDateTimeFormat instanceof Intl.DateTimeFormat, true);
+			});
+		});
+
+		describe.skip('.formatToParts(date)', () => {
+			it('polyfilled DateTimeFormat should implement iff native DateTimeFormat implemented it', () => {
+				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {
+					timeZone: 'UTC'
+				}); // UTC is always implemented
+				const polyfilledDateTimeFormat = new Intl.DateTimeFormat('en', {
+					timeZone: 'Moon/Nearside'
+				}); // Moon/Nearside must never be implemented in browser, because its fake timezone name
+				assert(!((polyfilledDateTimeFormat.formatToParts) ^ (nativeDateTimeFormat.formatToParts)), 'formatToParts implementation mismatched');
+			});
+
+			if (!new Intl.DateTimeFormat('en', {
+					timeZone: 'Moon/Nearside'
+				}).formatToParts) {
+				return;
+			}
+
+			formatToPartTests.forEach(test => {
+				it(`with locale ${test.locale} timeZone ${test.timeZone} and format ${test.nameFormat}`, () => {
+					const dateTimeFormat = new Intl.DateTimeFormat(test.locale, {
+						timeZone: test.timeZone,
+						timeZoneName: test.nameFormat
+					});
+					const parts = dateTimeFormat.formatToParts(test.date);
+					const timeZonePart = parts.reduce((found, part) => ((part.type === 'timeZoneName') ? part : found), null);
+					assert.equal(timeZonePart.value, test.expectedTimeZoneName);
+				});
 			});
 		});
 
