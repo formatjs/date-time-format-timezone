@@ -3,6 +3,7 @@
 import assert from 'assert';
 import timeStampTests from './test-data/time-stamp-fixtures.js';
 import localeTests from './test-data/locale-test-fixtures.js';
+import formatToPartTests from './test-data/format-to-parts-fixtures.js';
 import polyfill from '../src/code/polyfill.js';
 import dataLoader from '../src/code/data-loader.js';
 import tzdataMoonLanding from './test-data/tzdata-moon-nearside.js';
@@ -10,7 +11,7 @@ import tzdata from '../src/data/tzdata.js';
 import localeData from '../src/data/locale.js';
 import metazone from '../src/data/metazone.js';
 
-const isNode = (typeof global !== "undefined" && {}.toString.call(global) === '[object global]');
+const isNode = (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]');
 const myGlobal = (isNode) ? global : window;
 
 
@@ -21,21 +22,29 @@ tzdata(myGlobal);      // Loads timezone iana data in memory
 localeData(myGlobal);      // Loads timezone CLDR data in memory
 tzdataMoonLanding(myGlobal);
 
-function formatAssert(actual) {
+function formatAssert(expected, actual) {
+	// Browsers do not follow number formating in consistent way.
+	// This causes a mismatch between rest of the formatting.
+	// Our test in 'test-complete.js' does test actual match,
+	// but here we only ensure that no exception happening, while formatting.
 	assert(actual, 'must not be a falsy value');
 }
 
-describe('Polyfill with complete package', () => {
+if (myGlobal.Intl.__disableRegExpRestore) {
+	myGlobal.Intl.__disableRegExpRestore();
+}
+
+describe('SauceLabs# ', () => {
 	describe('DateTimeFormat', () => {
 		describe('Instanceof integrity', () => {
-			it('nativedDateTimeFormat  instanceof Intl.DateTimeFormat', () => {
-				const nativedDateTimeFormat = new Intl.DateTimeFormat('en', {
+			it('native DateTimeFormat  instanceof Intl.DateTimeFormat', () => {
+				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {
 					timeZone: 'America/Los_Angeles'
 				});
-				assert.equal(nativedDateTimeFormat instanceof Intl.DateTimeFormat, true);
+				assert.equal(nativeDateTimeFormat instanceof Intl.DateTimeFormat, true);
 			});
 
-			it('polyfilledDateTimeFormat  instanceof Intl.DateTimeFormat', () => {
+			it('polyfilled DateTimeFormat  instanceof Intl.DateTimeFormat', () => {
 				const polyfilledDateTimeFormat = new Intl.DateTimeFormat('en', {
 					timeZone: 'Moon/Nearside'
 				});
@@ -43,7 +52,33 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 
-		describe('.format(locale, option)', () => {
+		describe.skip('.formatToParts(date)', () => {
+			it('polyfilled DateTimeFormat should implement iff native DateTimeFormat implemented it', () => {
+				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {timeZone: 'UTC'}); // UTC is always implemented
+				const polyfilledDateTimeFormat = new Intl.DateTimeFormat('en', {timeZone: 'Moon/Nearside'});// Moon/Nearside can never be implemented.
+				assert(!((polyfilledDateTimeFormat.formatToParts) ^ (nativeDateTimeFormat.formatToParts)), 'formatToParts implementation mismatched');
+			});
+
+			if (!new Intl.DateTimeFormat('en', {
+					timeZone: 'Moon/Nearside'
+				}).formatToParts) {
+				return;
+			}
+
+			formatToPartTests.forEach(test => {
+				it(`with locale ${test.locale} timeZone ${test.timeZone} and format ${test.nameFormat}`, () => {
+					const dateTimeFormat = new Intl.DateTimeFormat(test.locale, {
+						timeZone: test.timeZone,
+						timeZoneName: test.nameFormat
+					});
+					const parts = dateTimeFormat.formatToParts(test.date);
+					const timeZonePart = parts.reduce((found, part) => ((part.type === 'timeZoneName') ? part : found), null);
+					assert.equal(timeZonePart.value, test.expectedTimeZoneName);
+				});
+			});
+		});
+
+		describe('.format(date, option)', () => {
 			timeStampTests.slice(0, 1000).forEach(testFixture => {
 				const param = testFixture[0].split(':'),
 					locale = param[0],
@@ -127,6 +162,11 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 		describe('.supportedLocalesOf()', () => {
+			if (!Intl.DateTimeFormat.supportedLocalesOf) {
+				console.log('supportedLocalesOf is not available in this environment');
+				return;
+			}
+
 			it('should work as usual.', () => {
 				const supportedLocales = Intl.DateTimeFormat.supportedLocalesOf('en');
 
