@@ -40,6 +40,12 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 
+        describe('called as a function', () => {
+            it('preserves this ability', () => {
+                assert.doesNotThrow(() => Intl.DateTimeFormat());
+            });
+        });
+
 		describe.skip('.formatToParts(date)', () => {
 			it('polyfilled DateTimeFormat should implement iff native DateTimeFormat implemented it', () => {
 				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {
