@@ -10,6 +10,50 @@ import {
     getZoneNameForLocale
 } from './lookup-utill.js';
 
+// Used to get the value of a super function without class syntax
+// This is taken (and slightly modified) from Babel's output for
+// ES6 class syntax
+function _get(object, property, receiver) {
+    if (object === null)
+        object = Function.prototype;
+    let desc = Object.getOwnPropertyDescriptor(object, property);
+    if (desc === undefined) {
+        let parent = Object.getPrototypeOf(object);
+        if (parent === null) {
+            return undefined;
+        }
+        return _get(parent, property, receiver);
+    }
+    if ("value" in desc) {
+        return desc.value;
+    }
+    let getter = desc.get;
+    if (getter === undefined) {
+        return undefined;
+    }
+    return getter.call(receiver);
+}
+
+// Also from Babel, minimal subclassing utility function
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) {
+        Object.setPrototypeOf
+            ? Object.setPrototypeOf(subClass, superClass)
+            : subClass.__proto__ = superClass;
+    }
+}
+
 /**
 * Pollyfill ECMA402 DateTimeFormat
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/format
@@ -26,74 +70,93 @@ export default function polyfill(globalSpace) {
     const jsonClone = function(o) {
         return JSON.parse(JSON.stringify(o));
     };
+    const _DateTimeFormat = gIntl.DateTimeFormat;
 
-    gIntl._DateTimeFormat = gIntl.DateTimeFormat;
+    gIntl._DateTimeFormat = _DateTimeFormat;
 
     gIntl._DateTimeFormatTimeZone = {
         checkTimeZoneSupport: checkTimeZoneSupport
     };
 
-    class DateTimeFormatPolyfill extends gIntl._DateTimeFormat {
-
-        constructor(locale, options) {
-            const timeZone = (options && options.timeZone) || 'UTC';
-
-            if (options === undefined) {
-                // options is not provided. this means
-                // we don't need to format arbitrary timezone
-                super(locale, options);
-
-                return;
-            }
-
-            if (checkTimeZoneSupport(timeZone)) {
-                // native method has support for timezone. no polyfill logic needed.
-                super(locale, options);
-
-                return;
-            }
-
-            const timeZoneData = gIntl._timeZoneData.get(timeZone);
-
-            // check if we have timezone data for this timezone
-            if (!timeZoneData) {
-                throw new RangeError(`invalid time zone in DateTimeFormat():  ${timeZone}`);
-            }
-
-            // Do a timeshift to UTC to avoid explosion due to unsupprted timezone.
-            const tsOption = jsonClone(options);
-            tsOption.timeZone = 'UTC';
-            super(locale, tsOption);
-
-            const resolvedLocale = super.resolvedOptions().locale;
-
-            if (options.timeZoneName !== undefined) {
-                // We need to include timeZoneName in date format.
-                // Check if we have locale data to able to do that.
-                if (!(gIntl._localeData.get(resolvedLocale) && // availability of localedata
-                        Intl._metaZoneData.get(timeZone))) {   // availability of metaZone for this timeZone
-                    throw new RangeError(`unsupported value "${options.timeZoneName}" for timeZone ${timeZone}. requires locale data for ${resolvedLocale}`);
-                }
-            }
-
-            // to minimize pollution everything we need to perform polyfill is wrapped under one object.
-            this._dateTimeFormatPolyfill = {
-                optionTimeZone: timeZone,
-                optionTimeZoneName: options.timeZoneName,
-                timeZoneData: timeZoneData
-            };
-
-            return this;
+    function DateTimeFormatPolyfill(locale, options) {
+        if (!(this instanceof DateTimeFormatPolyfill)) {
+            return new DateTimeFormatPolyfill(locale, options);
         }
 
-        supportedLocalesOf() {
-            // there is no need to modify behaviour of this function.
-            return super.supportedLocalesOf();
+        const timeZone = (options && options.timeZone) || 'UTC';
+
+        if (options === undefined) {
+            // options is not provided. this means
+            // we don't need to format arbitrary timezone
+            _DateTimeFormat.call(this, locale, options);
+
+            return;
         }
 
-        format(date) {
+        if (checkTimeZoneSupport(timeZone)) {
+            // native method has support for timezone. no polyfill logic needed.
+            _DateTimeFormat.call(this, locale, options);
+
+            return;
+        }
+
+        const timeZoneData = gIntl._timeZoneData.get(timeZone);
+
+        // check if we have timezone data for this timezone
+        if (!timeZoneData) {
+            throw new RangeError(`invalid time zone in DateTimeFormat():  ${timeZone}`);
+        }
+
+        // Do a timeshift to UTC to avoid explosion due to unsupprted timezone.
+        const tsOption = jsonClone(options);
+        tsOption.timeZone = 'UTC';
+        _DateTimeFormat.call(this, locale, tsOption);
+
+        const _resolvedOptions = _get(
+            DateTimeFormatPolyfill.prototype.__proto__ ||
+            Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+            'resolvedOptions',
+            this
+        );
+
+        const resolvedLocale = _resolvedOptions.call(this).locale;
+
+        if (options.timeZoneName !== undefined) {
+            // We need to include timeZoneName in date format.
+            // Check if we have locale data to able to do that.
+            if (!(gIntl._localeData.get(resolvedLocale) && // availability of localedata
+                    Intl._metaZoneData.get(timeZone))) {   // availability of metaZone for this timeZone
+                throw new RangeError(`unsupported value "${options.timeZoneName}" for timeZone ${timeZone}. requires locale data for ${resolvedLocale}`);
+            }
+        }
+
+        // to minimize pollution everything we need to perform polyfill is wrapped under one object.
+        this._dateTimeFormatPolyfill = {
+            optionTimeZone: timeZone,
+            optionTimeZoneName: options.timeZoneName,
+            timeZoneData: timeZoneData
+        };
+    }
+    _inherits(DateTimeFormatPolyfill, _DateTimeFormat);
+
+    Object.defineProperty(DateTimeFormatPolyfill.prototype, 'format', {
+        configurable: true,
+        value: function(date) {
+            const _format = _get(
+                DateTimeFormatPolyfill.prototype.__proto__ ||
+                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                'format',
+                this
+            );
+            const _resolvedOptions = _get(
+                DateTimeFormatPolyfill.prototype.__proto__ ||
+                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                'resolvedOptions',
+                this
+            );
+
             if (!this._dateTimeFormatPolyfill) {
-                return super.format(date);
+                return _format.call(this, date);
             }
 
             if (date === null || date === undefined) {
@@ -108,8 +171,8 @@ export default function polyfill(globalSpace) {
             const timeZoneOffsetInfo = getTimeZoneOffsetInfo(polyfill.timeZoneData, date);
             const timeZoneOffset = timeZoneOffsetInfo.offset * 60000;
             const shiftedDate = new Date(date.getTime() + timeZoneOffset); // We need to  format time by offseting it
-            const shiftedFormat = super.format(shiftedDate); // offseted or shifted format
-            const resolvedLocale = super.resolvedOptions().locale;
+            const shiftedFormat = _format.call(this, shiftedDate); // offseted or shifted format
+            const resolvedLocale = _resolvedOptions.call(this).locale;
             const doNeedToReplaceTimeZoneName = (polyfill.optionTimeZoneName !== undefined);
 
             if (doNeedToReplaceTimeZoneName) {
@@ -145,20 +208,31 @@ export default function polyfill(globalSpace) {
 
             return shiftedFormat;
         }
+    });
 
-        resolvedOptions() {
+    Object.defineProperty(DateTimeFormatPolyfill.prototype, 'resolvedOptions', {
+        writable: true,
+        configurable: true,
+        value: function() {
+            const _resolvedOptions = _get(
+                DateTimeFormatPolyfill.prototype.__proto__ ||
+                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                'resolvedOptions',
+                this
+            );
+
             if (this._dateTimeFormatPolyfill) {
-                // since we have altered timezone option for super.
+                // since we have altered timezone option for _DateTimeFormat.
                 // we need to correct that before returing.
-                const options = jsonClone(super.resolvedOptions());
+                const options = jsonClone(_resolvedOptions.call(this));
                 options.timeZone = this._dateTimeFormatPolyfill.optionTimeZone;
 
                 return options;
             }
 
-            return super.resolvedOptions();
+            return _resolvedOptions.call(this);
         }
-    }
+    });
 
     gIntl.DateTimeFormat = DateTimeFormatPolyfill;
 
