@@ -124,7 +124,7 @@ export default function polyfill(globalSpace) {
         if (options.timeZoneName !== undefined) {
             // We need to include timeZoneName in date format.
             // Check if we have locale data to able to do that.
-            if (!(gIntl._localeData.get(resolvedLocale) && // availability of localedata
+            if (!(gIntl._localeData.getLocale(resolvedLocale) && // availability of localedata
                     Intl._metaZoneData.get(timeZone))) {   // availability of metaZone for this timeZone
                 throw new RangeError(`unsupported value "${options.timeZoneName}" for timeZone ${timeZone}. requires locale data for ${resolvedLocale}`);
             }

@@ -276,4 +276,26 @@ describe('Polyfill with complete package', () => {
 			});
 		});
 	});
+
+	describe('globalSpace.Intl._localeData', () => {
+		const ld = Intl._localeData;
+
+		describe('getLocale', () => {
+			it('finds valid locale', () => {
+				assert(ld.getLocale('en-US-u-va-posix'));
+				assert(ld.getLocale('en'));
+			});
+
+			it('should not find an invalid locale', () => {
+				assert(!ld.getLocale('noooo-not-a-locale'));
+			});
+
+			it('fallsback on generic locale if specific locale is not found', () => {
+				const loadedLocales = Object.keys(ld.get());
+
+				loadedLocales.forEach(locale => assert(ld.getLocale(locale + '-abcd')));
+				loadedLocales.forEach(locale => assert(ld.getLocale(locale + '-abcd-bcb')));
+			});
+		});
+	});
 });

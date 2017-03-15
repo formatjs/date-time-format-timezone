@@ -346,6 +346,27 @@ function loadLocaleData(packedCLDRZoneData) {
     });
 }
 
+function getLocale(locale) {
+    if (this.get(locale)) {
+        return this.get(locale);
+    }
+
+    const localeItems = locale.split('-');
+    const fallbackLocales = [];
+
+    for (let i = 0; i < localeItems.length - 1; i++) {
+        fallbackLocales.push(localeItems.slice(0, localeItems.length - i - 1).join('-'));
+    }
+
+    for (let j = 0; j < fallbackLocales.length; j++) {
+        if (this.get(fallbackLocales[j])) {
+            return this.get(fallbackLocales[j]);
+        }
+    }
+
+    return undefined;
+}
+
 /**
 * Class every loader is instance.
 * data files call load function on this object.
@@ -384,7 +405,9 @@ export default function dataloader(globalSpace) {
             globalSpace.Intl.<someNameSpace>.value      : will hold the value.
         */
         globalSpace.Intl._metaZoneData = new Loader();
-        globalSpace.Intl._localeData = new Loader(loadLocaleData);
+        globalSpace.Intl._localeData = new Loader(loadLocaleData, {
+            getLocale: getLocale
+        });
         globalSpace.Intl._timeZoneData = new Loader(loadTimeZoneData, {
             // this timeZone loader needs to modify _metaZoneData so it need access to global object.
             // this is why this function is bind to globalSpace

@@ -126,7 +126,7 @@ function getTimeZoneOffsetInfo(timeZoneHistory, date) {
  */
 function getZoneNameForLocale({locale, ianaTimeZone, offset, isdst, isShort, timeStamp}) {
     const metaZoneName = getRelevantMetaZone(Intl._metaZoneData.get(ianaTimeZone), timeStamp, getGenericZoneName(offset));
-    const cldrZones = Intl._localeData.get(locale);
+    const cldrZones = Intl._localeData.getLocale(locale);
     const cldrZoneNamesThruMetaZone = (metaZoneName && cldrZones && cldrZones.metazone[metaZoneName]);
     const cldrZoneNamesThruIanaTimeZone = (cldrZones && cldrZones.zone && cldrZones.zone[ianaTimeZone]);
 

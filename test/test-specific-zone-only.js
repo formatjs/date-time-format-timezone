@@ -60,7 +60,7 @@ describe('Polyfill packaged with specific timezone data', () => {
 						hour: 'numeric',
 						minute: 'numeric',
 						timeZoneName: 'long',
-						timeZone: 'Antarctica/DumontDUrville'
+						timeZone: 'Moon/Nearside'
 					}).format(date);
 				}, /RangeError/);
 			});

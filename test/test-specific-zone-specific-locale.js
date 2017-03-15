@@ -58,6 +58,7 @@ describe('Polyfill packaged with specific timezone data', () => {
 					assert.equal('06/12/2016 à 00:05 heure de Dumont-d’Urville', losAngelesTime);
 				});
 			}
+
 			if (Intl.DateTimeFormat.supportedLocalesOf('en').indexOf('en') >= 0) {
 				it('should format if timeZoneName is printed with loaded locale', () => {
 					const date = new Date(1480946713977);
@@ -76,21 +77,24 @@ describe('Polyfill packaged with specific timezone data', () => {
 				});
 			}
 
-			it('should throw exception if timeZoneName is printed with non-loaded locale', () => {
-				const date = new Date(1480946713977);
+			if (Intl.DateTimeFormat.supportedLocalesOf('hi').indexOf('hi') >= 0 &&
+				!Intl._DateTimeFormatTimeZone.checkTimeZoneSupport('Antarctica/DumontDUrville')) {
+				it('should throw exception if timeZoneName is printed with non-loaded locale', () => {
+					const date = new Date(1480946713977);
 
-				assert.throws(() => {
-					new Intl.DateTimeFormat('hi', {
-						year: 'numeric',
-						month: 'numeric',
-						day: 'numeric',
-						hour: 'numeric',
-						minute: 'numeric',
-						timeZoneName: 'long',
-						timeZone: 'Antarctica/DumontDUrville'
-					}).format(date);
-				}, /RangeError/);
-			});
+					assert.throws(() => {
+						new Intl.DateTimeFormat('hi', {
+							year: 'numeric',
+							month: 'numeric',
+							day: 'numeric',
+							hour: 'numeric',
+							minute: 'numeric',
+							timeZoneName: 'long',
+							timeZone: 'Antarctica/DumontDUrville'
+						}).format(date);
+					}, /RangeError/);
+				});
+			}
 		});
 	});
 });
