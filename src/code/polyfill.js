@@ -210,6 +210,71 @@ export default function polyfill(globalSpace) {
         }
     });
 
+    const _formatToParts = _get(
+      DateTimeFormatPolyfill.prototype.__proto__ ||
+        Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+      'formatToParts',
+      this
+    );
+
+    if (_formatToParts) {
+        Object.defineProperty(DateTimeFormatPolyfill.prototype, 'formatToParts', {
+            configurable: true,
+            value: function(date) {
+
+                const _resolvedOptions = _get(
+                  DateTimeFormatPolyfill.prototype.__proto__ ||
+                    Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                  'resolvedOptions',
+                  this
+                );
+
+                if (!this._dateTimeFormatPolyfill) {
+                    return _formatToParts.call(this, date);
+                }
+
+                if (date === null || date === undefined) {
+                    date = new Date();
+                }
+
+                if (!(date instanceof Date)) {
+                    date = new Date(date);
+                }
+
+                const polyfill = this._dateTimeFormatPolyfill;
+                const timeZoneOffsetInfo = getTimeZoneOffsetInfo(polyfill.timeZoneData, date);
+                const timeZoneOffset = timeZoneOffsetInfo.offset * 60000;
+                const shiftedDate = new Date(date.getTime() + timeZoneOffset); // We need to  format time by offseting it
+                const shiftedParts = _formatToParts.call(this, shiftedDate);
+                const resolvedLocale = _resolvedOptions.call(this).locale;
+                const doNeedToReplaceTimeZoneName = (polyfill.optionTimeZoneName !== undefined);
+
+                if (doNeedToReplaceTimeZoneName) {
+                    const isShort = (polyfill.optionTimeZoneName === 'short');
+                    const timeZoneName = getZoneNameForLocale({
+                        locale: resolvedLocale,
+                        ianaTimeZone: polyfill.optionTimeZone,
+                        isdst: timeZoneOffsetInfo.isdst,
+                        offset: timeZoneOffsetInfo.offset,
+                        timeStamp: date.getTime(),
+                        isShort: isShort
+                    });
+
+                    const index = shiftedParts.map(i => i.type).indexOf('timeZoneName');
+
+                    if (index >= 0) {
+                        shiftedParts[index] = {
+                            type: 'timeZoneName',
+                            value: timeZoneName
+                        };
+                    }
+                }
+
+                return shiftedParts;
+            }
+        });
+    }
+
     Object.defineProperty(DateTimeFormatPolyfill.prototype, 'resolvedOptions', {
         writable: true,
         configurable: true,
