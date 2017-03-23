@@ -52,7 +52,7 @@ describe('SauceLabs# ', () => {
 			});
 		});
 
-		describe.skip('.formatToParts(date)', () => {
+		describe('.formatToParts(date)', () => {
 			it('polyfilled DateTimeFormat should implement iff native DateTimeFormat implemented it', () => {
 				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {timeZone: 'UTC'}); // UTC is always implemented
 				const polyfilledDateTimeFormat = new Intl.DateTimeFormat('en', {timeZone: 'Moon/Nearside'});// Moon/Nearside can never be implemented.

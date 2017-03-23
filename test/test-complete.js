@@ -46,7 +46,7 @@ describe('Polyfill with complete package', () => {
             });
         });
 
-		describe.skip('.formatToParts(date)', () => {
+		describe('.formatToParts(date)', () => {
 			it('polyfilled DateTimeFormat should implement iff native DateTimeFormat implemented it', () => {
 				const nativeDateTimeFormat = new Intl.DateTimeFormat('en', {
 					timeZone: 'UTC'
