@@ -17,14 +17,18 @@ Some [browsers do not support arbitrary time zone ](http://kangax.github.io/comp
 
    1. browser
 
-	`<script src="build/browserified/date-time-format-time-zone-complete-min.js">`
+for everything 
+```
+   <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-timezone-complete-min.js">
+```
   or
+for individual files 
 
   ```
-    <script src="build/browserified/date-time-format-time-zone-no-data.js">
-    <script src="build/browserified/data/locales/locale-en-US-POSIX.js">
-    <script src="build/browserified/data/metazone.js">
-    <script src="build/browserified/data/timezones/tzdata-america-los_angeles.js">
+    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-time-zone-no-data.js">
+    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/locales/locale-en-US-POSIX.js">
+    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/metazone.js">
+    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/timezones/tzdata-america-los_angeles.js">
   ```
 This polyfill can add this support.
 
