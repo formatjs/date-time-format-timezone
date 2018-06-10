@@ -60,7 +60,7 @@ function _inherits(subClass, superClass) {
 * https://tc39.github.io/ecma402/#sec-Intl.DateTimeFormat.prototype.format
 */
 export default function polyfill(globalSpace) {
-    if (!(globalSpace.Intl && globalSpace.Intl.DateTimeFormat && !globalSpace.Intl._DateTimeFormatTimeZone)) {
+    if (globalSpace.Intl && (globalSpace.Intl.DateTimeFormat || globalSpace.Intl._DateTimeFormatTimeZone)) {
         return;
     }
 
