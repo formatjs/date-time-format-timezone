@@ -7,29 +7,29 @@ Some [browsers do not support arbitrary time zone ](http://kangax.github.io/comp
 
 ## How to use?
 
-   1. install
-
-	`npm i date-time-format-timezone`
-
-   1. nodejs
-
-	`require('date-time-format-timezone'); // polyfill is ready`
-
-   1. browser
-
-for everything 
+1. Install via nodejs:
 ```
-   <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-timezone-complete-min.js">
+npm i date-time-format-timezone
 ```
-  or
-for individual files 
+And then import in your code:
+```
+require('date-time-format-timezone'); // polyfill is ready
+```
 
-  ```
-    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-time-zone-no-data.js">
-    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/locales/locale-en-US-POSIX.js">
-    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/metazone.js">
-    <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/timezones/tzdata-america-los_angeles.js">
-  ```
+2. In the browser
+
+include everything:
+```
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-timezone-complete-min.js">
+```
+or include individual files:
+
+```
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-time-zone-no-data.js">
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/locales/locale-en-US-POSIX.js">
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/metazone.js">
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/timezones/tzdata-america-los_angeles.js">
+ ```
 This polyfill can add this support.
 
 ```javascript
