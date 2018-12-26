@@ -361,8 +361,8 @@ function generatePackages(grunt) {
 
 	packages.forEach(pkg => {
 		const list = files.
-		concat(getTimeZoneList(pkg.timeZoneListType).map(p => srcBase + p)).
-		concat(getLocaleList(pkg.localeListType).map(p => srcBase + p));
+		concat(getLocaleList(pkg.localeListType).map(p => srcBase + p)).
+		concat(getTimeZoneList(pkg.timeZoneListType).map(p => srcBase + p));
 
 		grunt.file.write(`${buildDir}/src/${pkg.name}.js`, Utill.getPolyfillPackageModule(list));
 	});
