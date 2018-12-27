@@ -90,12 +90,20 @@ export default function polyfill(globalSpace) {
             // we don't need to format arbitrary timezone
             _DateTimeFormat.call(this, locale, options);
 
+            if (this.formatToParts) {
+                this._nativeObject = new _DateTimeFormat(locale, options);
+            }
+
             return;
         }
 
         if (checkTimeZoneSupport(timeZone)) {
             // native method has support for timezone. no polyfill logic needed.
             _DateTimeFormat.call(this, locale, options);
+
+            if (this.formatToParts) {
+                this._nativeObject = new _DateTimeFormat(locale, options);
+            }
 
             return;
         }
@@ -229,8 +237,8 @@ export default function polyfill(globalSpace) {
                   this
                 );
 
-                if (!this._dateTimeFormatPolyfill) {
-                    return _formatToParts.call(this, date);
+                if (!this._dateTimeFormatPolyfill && this._nativeObject) {
+                    return this._nativeObject.formatToParts(date);
                 }
 
                 if (date === null || date === undefined) {
