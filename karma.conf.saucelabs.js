@@ -20,6 +20,11 @@ module.exports = function(config) {
 		sl_edge: {
 			base: 'SauceLabs',
 			browserName: 'microsoftedge'
+		},
+		sl_firefox: {
+			base: 'SauceLabs',
+			browserName: 'firefox',
+			version: '64'
 		}
 	};
 
@@ -45,6 +50,6 @@ module.exports = function(config) {
 		browserNoActivityTimeout: 100000,
 		port: 9999,
 		singleRun: true,
-		browsers: ['sl_ie_10', 'sl_edge', 'sl_ie_11', 'sl_safari']
+		browsers: ['sl_ie_10', 'sl_edge', 'sl_ie_11', 'sl_safari', 'sl_firefox']
 	});
 };
