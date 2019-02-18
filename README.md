@@ -70,7 +70,7 @@ new Intl.DateTimeFormat('en', {
 
 ## Generate latest data from [www.iana.org](http://www.iana.org/time-zones).
 ```
-git checkout https://github.com/markandey/DateTimeFormatTimeZone.git
+git checkout https://github.com/yahoo/date-time-format-timezone.git
 npm install
 grunt download
 grunt
