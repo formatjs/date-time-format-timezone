@@ -3,6 +3,7 @@ node_js:
   - "6"
 addons:
   firefox: "49.0"
+  sauce_connect: true
 install:
   - npm install
 before_script:
@@ -13,3 +14,6 @@ before_script:
   - echo 'America/Los_Angeles' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
 script: grunt
+env:
+  global:
+    secure: OESEzYRpsGAcBvWiFS0Tas3UPZLATNHE4FZvgcIMZ0HG04dfFVlyN3WylgriI35vfOA1e0pVwfbj2hJ8GDGAy0urx9GoJeMr1vj0u/1zSJMBVdoaxMHY/sJV84sRT1LZHDLnJxYKKLbbC5s4yF4Gs678RDBBUSTHaIZygmPatyBGy65liGGUn0KuJ+ralnYcJUPtgnAiKrNP93fdDpO5giNpaDH4Xr/bEcEtGNGIthK4dn0LbZTD63NP0VQaQtzNRLYjQ5XksaCzeB9wrUhiDPZAT9uWlkS5PT46nJTVSo9mh9xZxyCp3zCeTClGDNwfGXMzo9EdE+jyLQve/vSB8T3A0AGNALMp9rUk81tdnlKUNYoPizPy3xR2QBuzTwkan8Td4MmQy4epBatRvh74X3Ke3KwzZ9xvGBu/rCDdoHxX057dowbHiuTRmxrlWAZdSaQuR/hMpvwVDuGT3r4WjfdFjkb/52koqzA+iDDFHNpMZ8yoKxePI/K0DIhEequsSTJPtC7TaVLzDKP3M/4kVOPyB31TNXJwZcBZZsebDLPed05XLd4zBJpCv9o+0m91Qus6rrcrdZADUa8PmCrrV9dbs7m4H74VOcq0ioaVMARKxIAv0gnQWDk7UxK78fIUKTJyeZLtdlTon2SZugTjA+dm2ZBBjSGuD8pIrSa9bb8=
