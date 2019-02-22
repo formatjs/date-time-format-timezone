@@ -164,14 +164,56 @@ module.exports = function(grunt) {
 				}, {
 					src: 'build/browserified/test/test-specific-zone-specific-locale.js'
 				}]
-			},
-			saucelabsTest: {
-				configFile: 'karma.conf.saucelabs.js',
-				files: [{
-					src: 'node_modules/intl/dist/Intl.complete.js'
-				}, {
-					src: 'build/browserified/test/test-saucelabs.js'
-				}]
+			}
+		},
+		connect: {
+			server: {
+				options: {
+					base: '.',
+					port: 9999
+				}
+			}
+    },
+		'saucelabs-mocha': {
+			all: {
+				options: {
+					urls: ['http://127.0.0.1:9999/tests/index.html'],
+					build: process.env.TRAVIS_BUILD_NUMBER,
+					sauceConfig: {
+						'record-video': false,
+						'capture-html': false,
+						'record-screenshots': false,
+						'command-timeout': 60
+					},
+					throttled: 3,
+					browsers: [
+						{
+							platform: 'Windows XP',
+							browserName: 'internet explorer',
+							version: '10'
+						},
+						{
+
+							platform: 'Windows XP',
+							browserName: 'internet explorer',
+							version: '11'
+						},
+						{
+							platform: 'OS X',
+							browserName: 'safari',
+							version: '10'
+						},
+						{
+							platform: 'Windows X',
+							browserName: 'microsoftedge'
+						},
+						{
+							platform: 'Windows 7',
+							browserName: 'firefox',
+							version: '64'
+						}
+					]
+				}
 			}
 		},
 		mochaTest: {
@@ -230,7 +272,7 @@ module.exports = function(grunt) {
 	grunt.loadTasks('tasks');
 	grunt.registerTask('build', ['clean:build', 'eslint', 'babel', 'copy', 'gen-package', 'browserify', 'uglify']);
 
-	grunt.registerTask('test', process.env.TRAVIS ? ['mochaTest', 'karma'] : ['mochaTest'].concat(allBut('karma', 'saucelabsTest')));
+	grunt.registerTask('test', process.env.TRAVIS ? ['mochaTest', 'karma', 'connect', 'saucelabs-mocha'] : ['mochaTest', 'karma']);
 
 	grunt.registerTask('default', ['build', 'test']);
 	grunt.loadNpmTasks('grunt-contrib-copy');
@@ -244,4 +286,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-release');
 	grunt.loadNpmTasks('grunt-changelog');
+	grunt.loadNpmTasks('grunt-saucelabs');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 };

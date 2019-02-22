@@ -13,3 +13,7 @@ before_script:
   - echo 'America/Los_Angeles' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
 script: grunt
+env:
+  global:
+    - secure: Q1Agjbg1jP4OwEt2LZHX89gjxwK0vTK7EhXgQDIRnqJIqnQ26CbMn8eu8zdKOkysx8F0lHYjU5DqanV81VV4ApvjDuArAFpSJ3TjwFwyQf1UDwCGXsEb+gfd2S3zmzxc7N/T/QPdA+TsXxdzjg0NtnNW1rcThN3IL7Kh1Q1nvoQ=
+    - secure: K0CNsX5Dirh28CgYZtFSScrAKeyeH+YRNFxOADUNF4QVNPCGZWY8VNS+jHi5mekzm/2KgnkvLxpoD/0TECz8R6TvjIwrDZOcSRRi6Y5L7xO+R4xMZId93RT+mcwVR+7cqt+QVYnWjDVHof1ji4TdWq0WWbktDlULXq28VfjLr7c=
