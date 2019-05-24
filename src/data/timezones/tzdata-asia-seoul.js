@@ -5,12 +5,11 @@
  */
 module.exports = function load(global) {global.Intl && global.Intl._timeZoneData && global.Intl._timeZoneData.load({
     "zoneDefs": [
-        "ROK,Asia/Seoul||0,0,0,1,1,0,2,2,0,3,2,0,4,2,0,5,1,0,6,3,1,7,1,0,8,3,1,9,1,0,a,3,1,b,1,0,c,3,1,d,1,0,e,3,1,f,1,0,g,3,1,h,1,0,i,2,0,j,4,1,k,2,0,l,4,1,m,2,0"
+        "ROK,Asia/Seoul||0,0,0,1,1,0,2,2,0,3,2,0,4,1,0,5,3,1,6,1,0,7,3,1,8,1,0,9,3,1,a,1,0,b,3,1,c,1,0,d,3,1,e,1,0,f,3,1,g,1,0,h,2,0,i,4,1,j,2,0,k,4,1,l,2,0"
     ],
     "timeStamps": [
         "-1q2g3s9",
         "-1mhjq89",
-        "-ualh4h",
         "-mrpm0h",
         "-er1lgh",
         "-dp8i09",

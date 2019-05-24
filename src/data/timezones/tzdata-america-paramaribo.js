@@ -5,12 +5,11 @@
  */
 module.exports = function load(global) {global.Intl && global.Intl._timeZoneData && global.Intl._timeZoneData.load({
     "zoneDefs": [
-        "America/Paramaribo||0,0,0,1,0,0,2,1,0,3,1,0,4,2,0"
+        "America/Paramaribo||0,0,0,1,0,0,2,1,0,3,2,0"
     ],
     "timeStamps": [
         "-1nfksa9",
         "-mprkqd",
-        "5h2m5n",
         "drscdn",
         "1vvvvvv"
     ],
