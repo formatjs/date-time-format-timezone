@@ -164,14 +164,6 @@ module.exports = function(grunt) {
 				}, {
 					src: 'build/browserified/test/test-specific-zone-specific-locale.js'
 				}]
-			},
-			saucelabsTest: {
-				configFile: 'karma.conf.saucelabs.js',
-				files: [{
-					src: 'node_modules/intl/dist/Intl.complete.js'
-				}, {
-					src: 'build/browserified/test/test-saucelabs.js'
-				}]
 			}
 		},
 		mochaTest: {
@@ -230,7 +222,7 @@ module.exports = function(grunt) {
 	grunt.loadTasks('tasks');
 	grunt.registerTask('build', ['clean:build', 'eslint', 'babel', 'copy', 'gen-package', 'browserify', 'uglify']);
 
-	grunt.registerTask('test', process.env.TRAVIS ? ['mochaTest', 'karma'] : ['mochaTest'].concat(allBut('karma', 'saucelabsTest')));
+	grunt.registerTask('test', process.env.TRAVIS ? ['mochaTest', 'karma'] : ['mochaTest'].concat(allBut('karma')));
 
 	grunt.registerTask('default', ['build', 'test']);
 	grunt.loadNpmTasks('grunt-contrib-copy');
