@@ -25,7 +25,7 @@ include everything:
 or include individual files:
 
 ```
-<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-time-zone-no-data-min.js">
+<script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/date-time-format-timezone-no-data-min.js">
 <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/locales/locale-en-US-POSIX.js">
 <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/metazone.js">
 <script src="https://unpkg.com/date-time-format-timezone@latest/build/browserified/data/timezones/tzdata-america-los_angeles.js">
