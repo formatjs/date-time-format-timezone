@@ -48,7 +48,14 @@ function _setPrototypeOf(subClass, superClass) {
     return subClass;
 }
 
+function _isNativeFunction(fn) {
+    return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}  
+
 function _wrapNativeSuper(Class) {
+    if (!_isNativeFunction(Class)) {
+        return Class;
+    }
     function Wrapper() {
         const prototypeConstructor = _getPrototypeOf(this).constructor;
         const args = [null];
@@ -105,7 +112,7 @@ export default function polyfill(globalSpace) {
     const jsonClone = function(o) {
         return JSON.parse(JSON.stringify(o));
     };
-    const _DateTimeFormat = gIntl.DateTimeFormat;
+    const _DateTimeFormat = _wrapNativeSuper(gIntl.DateTimeFormat);
 
     gIntl._DateTimeFormat = _DateTimeFormat;
 
@@ -125,7 +132,7 @@ export default function polyfill(globalSpace) {
         if (options === undefined) {
             // options is not provided. this means
             // we don't need to format arbitrary timezone
-            _this = _getPrototypeOf(DateTimeFormatPolyfill).call(this, locale, options);
+            _this = _DateTimeFormat.call(this, locale, options);
 
             if (_this.formatToParts) {
                 _this._nativeObject = new _DateTimeFormat(locale, options);
@@ -136,7 +143,7 @@ export default function polyfill(globalSpace) {
 
         if (checkTimeZoneSupport(timeZone)) {
             // native method has support for timezone. no polyfill logic needed.
-            _this = _getPrototypeOf(DateTimeFormatPolyfill).call(this, locale, options);
+            _this = _DateTimeFormat.call(this, locale, options);
 
             if (_this.formatToParts) {
                 _this._nativeObject = new _DateTimeFormat(locale, options);
@@ -155,7 +162,7 @@ export default function polyfill(globalSpace) {
         // Do a timeshift to UTC to avoid explosion due to unsupprted timezone.
         const tsOption = jsonClone(options);
         tsOption.timeZone = 'UTC';
-        _this = _getPrototypeOf(DateTimeFormatPolyfill).call(this, locale, tsOption);
+        _this = _DateTimeFormat.call(this, locale, tsOption);
 
         const _resolvedOptions = _get(
             _getPrototypeOf(DateTimeFormatPolyfill.prototype),
@@ -183,7 +190,7 @@ export default function polyfill(globalSpace) {
 
         return _this;
     }
-    _inherits(DateTimeFormatPolyfill, _wrapNativeSuper(_DateTimeFormat));
+    _inherits(DateTimeFormatPolyfill, _DateTimeFormat);
 
     Object.defineProperty(DateTimeFormatPolyfill.prototype, 'format', {
         configurable: true,
