@@ -5,7 +5,7 @@
  */
 module.exports = function load(global) {global.Intl && global.Intl._timeZoneData && global.Intl._timeZoneData.load({
     "zoneDefs": [
-        "Pacific/Pohnpei,Pacific/Ponape,Etc/GMT-11||0,0,0"
+        "Etc/GMT-11||0,0,0"
     ],
     "timeStamps": [
         "1vvvvvv"

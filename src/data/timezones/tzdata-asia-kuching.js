@@ -5,7 +5,7 @@
  */
 module.exports = function load(global) {global.Intl && global.Intl._timeZoneData && global.Intl._timeZoneData.load({
     "zoneDefs": [
-        "Asia/Kuching||0,0,0,1,1,0,2,2,0,3,3,1,4,2,0,5,3,1,6,2,0,7,3,1,8,2,0,9,3,1,a,2,0,b,3,1,c,2,0,d,3,1,e,2,0,f,3,1,g,2,0,h,4,0,i,2,0,j,2,0"
+        "Asia/Kuching||0,0,0,1,1,0,2,2,0,3,3,1,4,2,0,5,3,1,6,2,0,7,3,1,8,2,0,9,3,1,a,2,0,b,3,1,c,2,0,d,3,1,e,2,0,f,3,1,g,2,0,h,4,0,i,2,0"
     ],
     "timeStamps": [
         "-197bubh",
@@ -26,7 +26,6 @@ module.exports = function load(global) {global.Intl && global.Intl._timeZoneData
         "-qc635h",
         "-q6ta01",
         "-mrf4gh",
-        "b93rfv",
         "1vvvvvv"
     ],
     "offsets": [
