@@ -14,7 +14,7 @@ module.exports = function load(global) {global.Intl && global.Intl._timeZoneData
         "-mto2sh",
         "-mptmfh",
         "-m8js71",
-        "-lqp0nh",
+        "-lrttvh",
         "-lak3n1",
         "-ktu5fh",
         "-kckb71",
