@@ -34,6 +34,50 @@ function _get(object, property, receiver) {
     return getter.call(receiver);
 }
 
+function _getPrototypeOf(Class) {
+    return Object.getPrototypeOf
+        ? Object.getPrototypeOf(Class) 
+        : Class.__proto__;
+}
+
+function _setPrototypeOf(subClass, superClass) {
+    if (Object.setPrototypeOf) {
+        return Object.setPrototypeOf(subClass, superClass);
+    }
+    subClass.__proto__ = superClass;
+    return subClass;
+}
+
+function _isNativeFunction(fn) {
+    return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}  
+
+function _wrapNativeSuper(Class) {
+    if (!_isNativeFunction(Class)) {
+        return Class;
+    }
+    function Wrapper() {
+        const prototypeConstructor = _getPrototypeOf(this).constructor;
+        const args = [null];
+        args.push.apply(args, arguments);
+        const Constructor = Function.bind.apply(Class, args);
+        const instance = new Constructor();
+        if (prototypeConstructor) {
+            _setPrototypeOf(instance, prototypeConstructor.prototype);
+        }
+        return instance;
+    }
+    Wrapper.prototype = Object.create(Class.prototype, {
+        constructor: {
+            value: Wrapper,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+    });
+    return _setPrototypeOf(Wrapper, Class);
+}
+
 // Also from Babel, minimal subclassing utility function
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -48,9 +92,7 @@ function _inherits(subClass, superClass) {
         }
     });
     if (superClass) {
-        Object.setPrototypeOf
-            ? Object.setPrototypeOf(subClass, superClass)
-            : subClass.__proto__ = superClass;
+        _setPrototypeOf(subClass, superClass);
     }
 }
 
@@ -70,7 +112,7 @@ export default function polyfill(globalSpace) {
     const jsonClone = function(o) {
         return JSON.parse(JSON.stringify(o));
     };
-    const _DateTimeFormat = gIntl.DateTimeFormat;
+    const _DateTimeFormat = _wrapNativeSuper(gIntl.DateTimeFormat);
 
     gIntl._DateTimeFormat = _DateTimeFormat;
 
@@ -83,29 +125,31 @@ export default function polyfill(globalSpace) {
             return new DateTimeFormatPolyfill(locale, options);
         }
 
+        let _this;
+
         const timeZone = (options && options.timeZone) || 'UTC';
 
         if (options === undefined) {
             // options is not provided. this means
             // we don't need to format arbitrary timezone
-            _DateTimeFormat.call(this, locale, options);
+            _this = _DateTimeFormat.call(this, locale, options);
 
-            if (this.formatToParts) {
-                this._nativeObject = new _DateTimeFormat(locale, options);
+            if (_this.formatToParts) {
+                _this._nativeObject = new _DateTimeFormat(locale, options);
             }
 
-            return;
+            return _this;
         }
 
         if (checkTimeZoneSupport(timeZone)) {
             // native method has support for timezone. no polyfill logic needed.
-            _DateTimeFormat.call(this, locale, options);
+            _this = _DateTimeFormat.call(this, locale, options);
 
-            if (this.formatToParts) {
-                this._nativeObject = new _DateTimeFormat(locale, options);
+            if (_this.formatToParts) {
+                _this._nativeObject = new _DateTimeFormat(locale, options);
             }
 
-            return;
+            return _this;
         }
 
         const timeZoneData = gIntl._timeZoneData.get(timeZone);
@@ -118,16 +162,15 @@ export default function polyfill(globalSpace) {
         // Do a timeshift to UTC to avoid explosion due to unsupprted timezone.
         const tsOption = jsonClone(options);
         tsOption.timeZone = 'UTC';
-        _DateTimeFormat.call(this, locale, tsOption);
+        _this = _DateTimeFormat.call(this, locale, tsOption);
 
         const _resolvedOptions = _get(
-            DateTimeFormatPolyfill.prototype.__proto__ ||
-            Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+            _getPrototypeOf(DateTimeFormatPolyfill.prototype),
             'resolvedOptions',
-            this
+            _this
         );
 
-        const resolvedLocale = _resolvedOptions.call(this).locale;
+        const resolvedLocale = _resolvedOptions.call(_this).locale;
 
         if (options.timeZoneName !== undefined) {
             // We need to include timeZoneName in date format.
@@ -139,11 +182,13 @@ export default function polyfill(globalSpace) {
         }
 
         // to minimize pollution everything we need to perform polyfill is wrapped under one object.
-        this._dateTimeFormatPolyfill = {
+        _this._dateTimeFormatPolyfill = {
             optionTimeZone: timeZone,
             optionTimeZoneName: options.timeZoneName,
             timeZoneData: timeZoneData
         };
+
+        return _this;
     }
     _inherits(DateTimeFormatPolyfill, _DateTimeFormat);
 
@@ -151,14 +196,12 @@ export default function polyfill(globalSpace) {
         configurable: true,
         value: function(date) {
             const _format = _get(
-                DateTimeFormatPolyfill.prototype.__proto__ ||
-                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                _getPrototypeOf(DateTimeFormatPolyfill.prototype),
                 'format',
                 this
             );
             const _resolvedOptions = _get(
-                DateTimeFormatPolyfill.prototype.__proto__ ||
-                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                _getPrototypeOf(DateTimeFormatPolyfill.prototype),
                 'resolvedOptions',
                 this
             );
@@ -219,8 +262,7 @@ export default function polyfill(globalSpace) {
     });
 
     const _formatToParts = _get(
-      DateTimeFormatPolyfill.prototype.__proto__ ||
-        Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+       _getPrototypeOf(DateTimeFormatPolyfill.prototype),
       'formatToParts',
       this
     );
@@ -229,13 +271,11 @@ export default function polyfill(globalSpace) {
         Object.defineProperty(DateTimeFormatPolyfill.prototype, 'formatToParts', {
             configurable: true,
             value: function(date) {
-
                 const _resolvedOptions = _get(
-                  DateTimeFormatPolyfill.prototype.__proto__ ||
-                    Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
-                  'resolvedOptions',
-                  this
-                );
+                    _getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                   'resolvedOptions',
+                   this
+                 );
 
                 if (!this._dateTimeFormatPolyfill && this._nativeObject) {
                     return this._nativeObject.formatToParts(date);
@@ -288,8 +328,7 @@ export default function polyfill(globalSpace) {
         configurable: true,
         value: function() {
             const _resolvedOptions = _get(
-                DateTimeFormatPolyfill.prototype.__proto__ ||
-                Object.getPrototypeOf(DateTimeFormatPolyfill.prototype),
+                _getPrototypeOf(DateTimeFormatPolyfill.prototype),
                 'resolvedOptions',
                 this
             );
